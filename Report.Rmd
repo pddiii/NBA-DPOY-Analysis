@@ -1,6 +1,7 @@
 ---
 title: |
-  | \vspace{5cm} Discussing the 2024 NBA Defensive Player of the Year
+  | \vspace{5cm} Analyzing NBA Defensive Player of the Year: 
+  | A Data Driven Approach
 author: |
   | Peter D. DePaul III
 date: "05-25-2024" 
@@ -15,6 +16,7 @@ output:
     fig_width: 12
     toc: no
     number_sections: true
+bibliography: references.bib
 linkcolor: blue
 urlcolor: blue
 citecolor: blue
@@ -48,7 +50,6 @@ library(Boruta)
 library(ggplot2)
 library(doParallel)
 library(xgboost)
-library(missForest)
 
 data <- read_csv('data/clean.csv') %>% 
   mutate(DPOY = as.factor(DPOY)) %>% 
@@ -68,11 +69,11 @@ completed_data <- read_csv('data/imputed_data.csv')
 
 # Introduction
 
-In the NBA, the Defensive Player of the Year award can often be controversial. This primarily is because defense is difficult to quantify and interpret in comparison to offensive production. The goal for this is to make the best effort to determine objectively who the most efficient and self-producing defender was this season. Keep in mind we are focusing on the individuals impact to their team.
+In the NBA, the Defensive Player of the Year (DPOY) award can often be controversial. This is primarily because defense is difficult to quantify and interpret compared to offensive production. The goal of this report is to make the best effort to objectively determine who the most efficient and self-producing defender was this season. Keep in mind we are focusing on the individual's impact on their team.
 
 # Variable Table
 
-When it came to choosing the variables for this analysis that I want to focus on, I arbitrarily will be focusing on the following individual player variables.
+When choosing the variables for this report, I will be focusing on the following individual player variables.
 
 ```{r varTbl}
 # Create the data frame with new variables
@@ -99,13 +100,25 @@ var_tbl <-
 var_tbl
 ```
 
-I decided to use the variables above because of the available defensive statistics in basketball, these variables have the most direct explanation of a players defensive capabilities. I made the decision to include the `contested_shots` because I don't believe it's fair to compare players defensive qualities unless they contest and play a similar volume of shots. I will discuss further why I decided to include certain variables such as `charges`.
+I decided to use the variables from Table \@ref(tab:varTbl) because, of the available defensive statistics in basketball, these variables most directly explain a player's defensive capabilities. I included `contested_shots` because I believe it’s unfair to compare player's defensive qualities, unless they contest and play a similar volume of shots. I will discuss further why I included certain variables, such as charges.
 
 # Exploratory Data Analysis
 
+## Data Collection Process
+
+The advanced data statistics were scraped from NBA.com utilizing the data scraping tool "Data Miner". This includes the data files: `defense_2pt.csv`, `defense_3pt.csv`, `defense_dashboard.csv`, `hustle_stats.csv`, and `nba_combine_data`.
+
+The `dpoy_voting.csv` along with the files beginning with `stathead_` were obtained from Basketball-Reference and StatHead respectively.
+
+The data from `wingspans.csv` was collected by scraping [this website](https://craftednba.com/player-traits/length) using `Selenium` [@selenium] in combination with `requests`. [@requests]
+
+Finally, the `rosters.csv` data was collected by utilizing the `nba_api` library in Python. [@nbaApi]
+
+\newpage
+
 ## Position's Impact on Receiving DPOY Votes
 
-```{r dpoyVotePos}
+```{r dpoyVotePos, fig.cap="Positions of DPOY Vote Recipients", fig.pos="H"}
 # Filter those players who have received votes
 dpoy_votes <- 
   data %>% 
@@ -139,11 +152,11 @@ ggplot(pos_counts, aes(x = Var1, y = Freq, fill = Var1)) +
   
 ```
 
-As we can see from the chart above, a majority of Defensive Player of the Year vote recipients are those whose primary position is Forward, followed by Centers, and Guards. This is reasonable as Forwards often have more involved all-around roles on both offense and defense, think Lebron James. Defensive centers can be praised for their "anchoring" of the defense, think Dikembe Mutombo or Ben Wallace.
+As we can see from Figure \@ref(fig:dpoyVotePos), a majority of Defensive Player of the Year vote recipients are those whose primary position is Forward, followed by Centers, and Guards. This is reasonable as Forwards often have more involved all-around roles on both offense and defense, like LeBron James. Defensive centers can be praised for their “anchoring” of the defense, like Ben Wallace.
 
 ## Positional Impact on Winning Defensive Player of the Year
 
-```{r dpoyWinPos}
+```{r dpoyWinPos, fig.cap="Positions of DPOY Winner", fig.pos='H'}
 # Filter those players who have won Defensive Player of the Year
 dpoy_winners <- 
   data %>% 
@@ -177,11 +190,13 @@ ggplot(pos_counts, aes(x = Var1, y = Freq, fill = Var1)) +
   
 ```
 
-In the last 11 years, there has only been one Defensive Player of the Year who was a Guard and this was Marcus Smart in 2021-22. Perhaps this suggests that voters in recent years are biased towards Center and Forwards, and may inherently devalue the credible defending capabilities of guards. Perhaps this suggest that the voters don't value defensive performance statistics, and there is some extraneous factor they value highly.
+From Figure \@ref(fig:dpoyWinPos) we can see that in the last 11 seasons there has only been one Defensive Player of the Year who was a Guard, Marcus Smart in 2021-22. This suggests that voters in recent years are biased towards Centers and Forwards and may inherently devalue the credible defending capabilities of guards. This also suggests that the voters don’t value defensive performance statistics, and there is some extraneous factor they value highly.
+
+\newpage
 
 ## Taking a Look at Defensive Rankings
 
-To be clear for the following defensive graphs and metrics you will see concerning Defensive Rankings are created utilizing only the data for those who were in the top $80\%$ of the NBA's DFGA season-by-season. I did this because I believe it's only fair for ranking purposes to compare only those players who see similar amounts of defensive volume.
+For the following defensive graphs and metrics concerning Defensive Rankings, I only utilized data for players in the top 80% of the NBA’s DFGA season-by-season. I did this because I believe it’s only fair for ranking purposes to compare players who see similar amounts of defensive volume.
 
 ```{r defRankings}
 # Median = 1091
@@ -298,11 +313,11 @@ defense_24 <-
 
 ### Why does taking Charges Matter in Basketball?
 
-One of the variables I'm suspecting some uproar about is the `charges` variable due to the fact that one might argue charges don't impact basketball that much. I'm hoping that argument doesn't arise, because to me that is nonsense. A charge results in a new offensive possession for your team strictly because of your ability to properly defend, that's meaningful in my eyes. 
+One of the variables I expect some uproar about is the charges variable. Some might argue charges don’t impact basketball that much. I disagree with this entirely. I believe that a charge, which results in a new offensive possession for your team strictly because of your ability to properly defend, is more meaningful than a lot of standard defensive plays. 
 
-I am interested in investigating how Weight affects the ability to take charges. I figure another point that might be brought to light is the idea that the more you weigh the more difficult it will be to take a charge. I don't find this to necessarily be true. I think this is more circumstantial, and it depends on the quality of the defender. A good defender who is large can still draw charges, it might just take a little bit more effort but I can't comment on that.
+I am interested in investigating how weight affects the ability to take charges. Another point that might be raised is the idea that the more you weigh, the more difficult it will be to take a charge. I don’t necessarily find this to be true. It depends on the quality of the defender. A good defender who is large can still draw charges, but it might take a little more effort.
 
-```{r chargesPlot}
+```{r chargesPlot, fig.cap="Charge Leaders by Weight", fig.pos='H'}
 charges_info <- 
   data %>% 
   filter(!(Season %in% c("2013-14", "2014-15", "2015-16"))) %>% 
@@ -340,13 +355,15 @@ charges_plot <-
 charges_plot
 ```
 
-As we can see my point stands. Since 2016-17, one-third of the charges taken leaders each season in the NBA has been at least 240 lbs. For reference within our data set the mean and median weights were both right around 220 lbs. This highlights the importance of taking charges on defense as a metric to establish individual success.
+As we can see in Figure \@ref(fig:chargesPlot), my point stands. Since 2016-17 (when charges officially began being tracked), one-third of the charges taken leaders each season in the NBA have weighed at least 240 lbs. For reference, the mean and median weights within our data set are both around 220 lbs. This highlights the importance of taking charges on defense as a metric to establish individual success.
 
 ### Why include Defensive Rebounding?
 
-Rebounding is an important aspect of NBA success when looking at the overall totals. Is it more important on offense versus when on defense? I'm not really sure, but anyways this article is about defense so we'll talk about defense. My main interests for including `DRB` as a variable are Rudy Gobert's elite defensive rebounding capabilities, and to highlight the flaws of the `DWS` statistics which accounts for `DRB` in its calculations. 
+Rebounding is an important aspect of NBA success. Is rebounding more important on offense or defense? I’m not sure, but this article is about defense, so we’ll focus on that. My main interests for including `DRB` as a variable are Rudy Gobert’s elite defensive rebounding capabilities and to highlight the flaws of the `DWS` statistics, which account for `DRB` in its calculations.
 
-```{r dRebPlot}
+The reason I’m addressing Defensive Rebounds is to give credit to Gobert’s strengths. We all know he’s great with blocks and Defensive Field Goal Percentage, but Defensive Rebounds are important for defense.
+
+```{r dRebPlot, fig.pos="H",out.height="85%",fig.cap="Top Defensive Rebounders since 2013-14"}
 top_10_rebounding <- data %>%
   group_by(Season) %>%
   arrange(desc(DRB)) %>%
@@ -366,25 +383,23 @@ top_10_reb_plot <-
        y = "Top 10 Count") +
   theme_minimal() +
   theme(
-    plot.title = element_text(size = 16, face = "bold"),
-    axis.title.x = element_text(size = 16, face = "bold"),
-    axis.title.y = element_text(size = 16, face = "bold"),
-    axis.text.x = element_text(size = 14, angle = 45, vjust = 0.85, 
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.title.y = element_text(size = 14, face = "bold"),
+    axis.text.x = element_text(size = 12, angle = 45, vjust = 0.85, 
                                hjust = 0.85),
-    axis.text.y = element_text(size = 14),
-    legend.title = element_text(size = 16, face = "bold"),
-    legend.text = element_text(size = 14)
+    axis.text.y = element_text(size = 12),
+    legend.title = element_text(size = 14, face = "bold"),
+    legend.text = element_text(size = 12)
   )
 top_10_reb_plot
 ```
 
-One of Gobert's best arguments for his DPOY candidacy most years is his incredible Defensive Rebounding skills. As we can see from the plot above Rudy Gobert is one of only 4 players who have the distinction of finishing top 10 in defensive rebounding 7 out of the past 11 seasons. This is incredible, and beats the number of elite rebounders such as Andre Drummond and DeAndre Jordan but this number is based off totals whereas those two players do not log large minutes in recent years.
-
-The reason I'm even addressing Defensive Rebounds is to try to give credit to Gobert's strengths. We all know he's great with blocks, and Defensive field goal percentage but Defensive Rebounds are important for defense. Are they as important as advanced metrics give them credit? No, other stats such as Deflections, Blocks, charges etc. have a more meaningful explanation for individual defensive quality in the game of basketball.
+One of Gobert’s best arguments for his DPOY candidacy most years is his incredible Defensive Rebounding skills. As we can see from Figure \@ref(fig:dRebPlot), Rudy Gobert is one of only four players who have the distinction of finishing top 10 in defensive rebounding seven out of the past 11 seasons. This is incredible and surpasses the number of elite rebounders such as Andre Drummond and DeAndre Jordan. However, this number is based on totals, whereas Drummond and Jordan do not log large minutes in recent years.
 
 # How does a player get more DPOY Votes?
 
-For this process I decided to utilize the `xgboost` library along with the `tidymodels` interface to create a Gradient Boosted Decision Tree to analyze the important variables for predicting a DPOY `vote_getter` status (either "Yes" or "No").
+For this process, I utilized the `xgboost` library along with the `tidymodels` interface to create a Gradient Boosted Decision Tree to analyze the important variables for predicting DPOY `vote_getter` status (either “Yes” or “No”). `vote_getter` establishes whether or not a player received at least 1 vote for DPOY.
 
 ## Model Formula
 
@@ -422,13 +437,13 @@ $x_6$ & DFG\_PCT & $x_{14}$ & DRB \\
 
 ## Data Cleaning process
 
-Most of my data cleaning process was performed utilizing `Python` prior to the development of the actual report. Details for this can be found on the GitHub for this project [INSERT LINK HERE].
+Most of my data cleaning process was performed using Python prior to the development of this report. Details for this can be found on the GitHub for this project. [See file](https://github.com/pddiii/NBA-DPOY-Analysis/blob/main/data_cleaning.py).
 
-The most critical thing I want to discuss for the data cleaning process for model development was the data imputation. I decided to utilize the Multiple Imputation by Chained Equations process (`mice` library in R). If you would like to read more about it [INSERT MICE LINK]. I found this to be a possibly good use for this process because without imputation we still have a little more than $1,700$ observations in our dataset. This is a substantial amount of data for the process to base its decision on. The imputation used is important to keep in the back of your mind for the model, and it's interpretations as for 2013-14 through the end of 2015-16 season there are imputations contained. Prior to 2016-17, there were no "hustle" defensive stats measured which is why these values were missing.
+The most critical aspect of the data cleaning process for model development was data imputation. I utilized the Multiple Imputation by Chained Equations process (`mice` library in R). If you would like to read more about it [@mice]. I found this to be a good use for this process because without imputation we still have more than 1,700 observations in our data set. This is a substantial amount of data for the process to base its decision on. The imputation used is important to keep in mind for the model and its interpretations, as there are imputations for the 2013-14 through the end of the 2015-16 seasons. Prior to 2016-17, there were no “hustle” defensive stats measured, which is why these values were missing.
 
 ## Hyperparameter Tuning process
 
-I utilized the `tune` interface of `tidymodels` to Hyperparameter tune the Gradient Boosted Tree in order to ensure the best performance given our training data. I utilized a 500 row random search matrix created using the `grid_latin_hypercube()` function, which searched for the ideal parameters of the `boost_tree` model with the exceptions of `sample_size` and `stop_iter` which I restricted to $1$ and $5$ respectively.
+I utilized the `tune` interface of `tidymodels` [@tidymodels] to hyperparameter tune the Gradient Boosted Tree to ensure the best performance given our training data. I used a 500-row random search matrix created using the `grid_latin_hypercube()` function, which searched for the ideal parameters of the boost_tree model, except for `sample_size` and `stop_iter`, which I restricted to $1$ and $5$, respectively.
 
 ### Tuned Model Parameters
 
@@ -670,7 +685,7 @@ boost_metrics %>%
   row_spec(0, bold = TRUE, align = "c")
 ```
 
-From the cross-validation metrics we are able to see the model has a high performance accuracy of 0.9568, which is outstanding performance. The `roc_auc` being 0.9556 also indicates that we are relatively close to a near perfect predictor for the data set. However the one thing of important note is the relatively poor performance of `specificity`. This is likely due to the limited occurrences of those receiving DPOY votes, with about 10-15 people per year receiving votes. 
+From the cross-validation metrics in Table \@ref(tab:cvPerf), we are able to see the model has a high performance accuracy of 0.9568, which is outstanding performance. The `roc_auc` being 0.9556 also indicates that we are relatively close to a near perfect predictor for the data set. However the one thing of important note is the relatively poor performance of `specificity`. This is likely due to the limited occurrences of those receiving DPOY votes, with about 10-15 people per year receiving votes. 
 
 ## Performance on Test Data
 
@@ -697,13 +712,13 @@ metrics_df %>%
   row_spec(0, bold = TRUE, align = "c")
 ```
 
-On the `test` data set we achieved a high Accuracy of $96.4\%$ along with a high Sensitivity of $98.2\%$ pointing to the fact that the model excels at predicting when players will not receive DPOY votes. However I want to highlight a few lower-performing metrics. The Specificity achieved is $65.9\%$, which outperformed the cross-validation significantly. Additionally, the `AccuracyPValue` is less than 0.05. This indicates that at a 95% confidence level there is significant evidence to indicate that the model's Accuracy is better than a model achieved from randomly guessing. 
+As seen in Table \@ref(tab:testPerf), the `test` data set predictions achieved a high Accuracy of $96.4\%$ along with a high Sensitivity of $98.2\%$. This points to the fact that the model excels at predicting when players will not receive DPOY votes. However I want to highlight a few lower-performing metrics. The Specificity achieved is $65.9\%$, which outperformed the cross-validation significantly. Additionally, the `AccuracyPValue` is less than 0.05. This indicates that at a 95% confidence level there is significant evidence to indicate that the model's Accuracy is better than a model achieved from randomly guessing. 
 
-This table suggests that the model we have created using this imputed data performs at a high level overall, despite my desire for higher Specificity.
+Table \@ref(tab:testPerf) suggests that the model we have created using this imputed data performs at a high level overall, despite my desire for higher Specificity.
 
 ## Variable Importance Plot
 
-```{r vipPlot}
+```{r vipPlot, fig.cap="Variable Importance Plot", fig.pos='H'}
 vip_plot +
   theme(
     plot.title = element_text(size = 16, face = "bold"),
@@ -716,7 +731,7 @@ vip_plot +
   )
 ```
 
-From the Variable Importance Plot of the model above we can highlight the 5 most important variables for determining who will receive a DPOY vote. These 5 variables are
+From the Variable Importance Plot of the model in Figure \@ref(fig:vipPlot) we can highlight the 5 most important variables for determining who will receive a DPOY vote. These 5 variables are
 
 - `DWS` - Defensive Win Shares
 - `BLK` - Player's Total Blocks
@@ -732,11 +747,11 @@ Defensive Win Shares are calculated using the formula:
 
 $$\text{DWS} = \frac{\text{marginal defense}}{\text{marginal points per win}}$$
 
-For further understanding of the formula I'd suggest visiting [INSERT LINK TO BASKETBALL REFERENCE] to have a better idea of marginal defense and marginal points per win specifically. However to quickly address the flaws I find is the dependence on both Defensive Rating and a team's defensive possessions per game for marginal defense. Marginal points per win also utilizes PACE for part of the equation. The problems with Pace and Defensive Rating in my mind are the fact they don't really indicate defensive performance. Their both per 100 possession stats, and all they imply is how fast your team plays and to some degree how much your defense can slow down the other team. Anyone who watches basketball knows these stats are flukey and rather questionable interpretation.
+For a better understanding of the formula, I suggest visiting [Basketball-Reference](https://www.basketball-reference.com/about/ws.html#header). However, to quickly address the flaws, it depends on both Defensive Rating and a team’s defensive possessions per game for marginal defense. Marginal points per win also utilize PACE for part of the equation. The problems with Pace and Defensive Rating are that they don’t really indicate defensive performance. They are both per 100 possession stats, and all they imply is how fast your team plays and, to some degree, how much your defense can slow down the other team. Anyone who watches basketball knows these stats are questionable in interpretation.
 
 ## Interpretation of the Model
 
-My goal with creating this model is to try and quantitatively understand what persuades an NBA DPOY voter to choose certain players. I believe I have mildly accomplished this goal. The model was able to achieve a moderately high Specificity while achieving an extraordinary Sensitivity on the testing data. While it could perform poorly on future data, for what we have right now I would say it's a pretty amazing start.
+My goal with creating this model is to quantitatively understand what persuades an NBA DPOY voter to choose certain players. I believe I have mildly accomplished this goal. The model achieved moderately high Specificity while achieving extraordinary Sensitivity on the testing data. While it could perform poorly on future data, for what we have now, I would say it’s a strong start.
 
 # Who Deserved the DPOY Awards?
 
@@ -752,13 +767,13 @@ defensive_elite %>%
   row_spec(0, bold = TRUE, align = "c")
 ```
 
-From this table above we are able to see the top ranked defenders by `average_percentile` variable since 2013-14 season. 
+From Table \@ref(tab:tblTopDef) we are able to see the top ranked defenders by `average_percentile` variable since 2013-14 season. 
 
 I want to highlight the interesting part is the estimation suggests only Draymond Green's 2016-17 Season to be the only year in which the voters correctly determined the objectively best defender through these metrics. I find it important to highlight that often in these rankings too the highest rater defender is substantially higher ranking than the person who did win DPOY. This includes 2017-18, 2022-23, 2023-24 where all the highest ranked defenders did not win DPOY yet were almost 25 percentile points better on average than the DPOY winner for that year.
 
 ## Let's talk about 2023-24
 
-```{r}
+```{r gobWemb}
 gob_wemb <- ranked_data %>% 
   filter(Season == "2023-24", 
          Player %in% c("rudy gobert", "victor wembanyama")) %>% 
@@ -771,30 +786,35 @@ gob_wemb <- ranked_data %>%
 
 gob_wemb %>% 
   mutate(across(is.numeric, ~round(., digits = 2))) %>% 
-  rename_with(~ gsub("_percentile$", " \\%ile", .x), ends_with("_percentile")) %>% 
+  rename_with(~ gsub("_percentile$", "", .x), ends_with("_percentile")) %>% 
   kbl(caption = "Rudy and Wemby", booktabs = TRUE, 
       format = "latex") %>% 
   kable_styling(latex_options = c("HOLD_position", "striped", "scale_down"),
-                stripe_color = "#e6e6fa", font_size = 12) %>% 
+                stripe_color = "#e6e6fa", font_size = 16) %>%
+  add_header_above(c(" " = 1, "Percentiles" = 8)) %>% 
   row_spec(0, bold = TRUE, align = "c")
 ```
 
-Now remember these `%tile` variable are their percentile rankings among high volume defensive players similar to their roles. This "high volume" refers to those players who were in the top $20\%$ DFGA by season. Now as we can see from this Wembanyama was only worse at Defensive Rebounding, and significantly worse at Defensive field goal percentage. The defensive field goal percentage is problematic for sure, but it likely has to do with his immaturity as a defender which he'll grow out of with more experience. 
+From Table \@ref(tab:gobWemb), these percentile variables represent their rankings among high-volume defensive players similar to their roles. This “high volume” refers to players in the top $20\%$ DFGA by season. As we can see, Wembanyama was only worse at Defensive Rebounding and significantly worse at Defensive Field Goal Percentage. The defensive field goal percentage is problematic, but it likely has to do with his immaturity as a defender, which he’ll grow out of with more experience.
 
-I want to highlight how Wemby's defensive game is significantly more versatile. Wemby is doing everything, he's in the top $20\%$ of these high volume defenders for deflections, charges, total blocks, total steals, defensive box plus-minus, and even defensive rebounding. Again his weakness comparatively is his defensive field goal percentage. 
+Wemby’s defensive game is significantly more versatile. He is in the top 20% of these high-volume defenders for deflections, charges, total blocks, total steals, defensive box plus-minus, and even defensive rebounding. His comparative weakness is his defensive field goal percentage.
 
-Gobert on the other hand is pretty much just the king of the interior. He's great at getting blocks, and preventing people from making shots but he doesn't contribute much outside of this.
+Gobert, on the other hand, is primarily the king of the interior. He excels at getting blocks and preventing shots but doesn’t contribute much outside of this.
 
-I want to acknowledge that both of these guys have a tremendous effect on their respective team's defenses as Wemby is in the 97th percentile for Defensive Box Plus-Minus, and Gobert is in the 74th percentile. This is stellar for the both of them. I'll admit defensive box plus-minus is not a flawless statistic, as it neglects lineup combinations. For example, one of the reasons Wemby is in such a high percentile for `DBPM` is because the Spurs were terrible at defense overall this year. When Wemby was off the court they might as well not even have played defense. Once Wemby stepped onto the court his impact was felt immediately, which leads to his high defensive box plus-minus.
+Both players have a tremendous effect on their respective teams’ defenses. Wemby is in the 97th percentile for Defensive Box Plus-Minus, and Gobert is in the 74th percentile. This is stellar for both. However, defensive box plus-minus is not a flawless statistic, as it neglects lineup combinations. For example, one reason Wemby is in such a high percentile for DBPM is that the Spurs were terrible at defense overall this year. When Wemby was off the court, they might as well not have played defense. Once Wemby stepped onto the court, his impact was felt immediately, leading to his high defensive box plus-minus.
 
 # Looking Forward and Future Considerations
 
-Overall I don't think there's much more to be said regarding how voters choose for the Defensive Player of the Year award. There's no perfect method for determining who gets votes, and often we're nowhere close to choosing them correctly (based on my rankings). 
+Overall, there isn’t much more to say regarding how voters choose the Defensive Player of the Year award. There’s no perfect method for determining who gets votes, and often we’re nowhere close to choosing correctly (based on my rankings).
 
-Looking forward I hope analysis like this can be utilized to perhaps build a higher performing and more sound model. Perhaps it could even be used as a suggestion for future decisions concerning the future defensive player of the year. It may not be the perfect set up and rankings, but I believe it's better than whatever methods the voters are utilizing. The so called "eye test" often fails to meet the mark, and this is shown in the rankings. It shouldn't come about that so often these players who are doing all they can on defense to better their team lose to players who are simply highly specialized in one aspect of defense.
+Looking forward, I hope analyses like this can be used to build a higher-performing and more sound model. Perhaps it could even be used as a suggestion for future decisions concerning the Defensive Player of the Year. It may not be a perfect setup and ranking, but I believe it’s better than whatever methods the voters are currently using. The so-called “eye test” often fails to meet the mark, and this is shown in the rankings. It shouldn’t happen so often that players who are doing all they can on defense to better their team lose to players who are simply highly specialized in one aspect of defense.
 
 # Conclusion
 
-From the data I have presented we were able to come to the following conclusions. Rudy Gobert likely should not have been Defensive Player of the Year in the 2023-24 season, it should have been awarded to Rookie of the Year Victor Wembanyama. I discovered that this is not the only time it has happened in recent memory. In fact, it is the 6th time in the last 7 seasons that the winner of the award was not the highest ranked defender. I was able to build a model for predicting those who would simply receive Defensive Player of the Year votes, which performed moderately well. I think the model's importance is greater than one simply trying to predict the Defensive Player of the Year, because it's up to the voters and from what I've shown they're hard to predict.
+From the data presented, we concluded that Rudy Gobert likely should not have been Defensive Player of the Year in the 2023-24 season; it should have been awarded to Rookie of the Year Victor Wembanyama. This is not the only time it has happened in recent memory. It is the sixth time in the last seven seasons that the award winner was not the highest-ranked defender. I built a model for predicting those who would receive Defensive Player of the Year votes, which performed moderately well. The model’s importance is greater than one simply trying to predict the Defensive Player of the Year because it’s up to the voters, and as I’ve shown, they’re hard to predict.
 
-Hopefully further development can come along in this field of basketball analytics, as I believe defense needs the most attention from a statistical standpoint.
+Hopefully, further development can come along in this field of basketball analytics, as I believe defense needs the most attention from a statistical standpoint.
+
+\newpage
+
+# Bibliography
