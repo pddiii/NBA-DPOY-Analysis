@@ -1,0 +1,800 @@
+---
+title: |
+  | \vspace{5cm} Discussing the 2024 NBA Defensive Player of the Year
+author: |
+  | Peter D. DePaul III
+date: "05-25-2024" 
+abstract: ""
+header-includes:
+  - \usepackage[usenames,dvipsnames]{xcolor}
+  - \usepackage[table]{xcolor}
+  - \usepackage{booktabs}
+  - \usepackage{siunitx}
+output: 
+  bookdown::pdf_document2:
+    fig_width: 12
+    toc: no
+    number_sections: true
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+\newpage
+
+```{=latex}
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{4}
+\tableofcontents
+\hypersetup{linkcolor=blue}
+```
+\newpage
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE)
+library(bookdown)
+library(caret)
+library(tidyverse)
+library(tidymodels)
+library(kableExtra)
+library(car)
+library(vip)
+library(mice)
+library(Boruta)
+library(ggplot2)
+library(doParallel)
+library(xgboost)
+library(missForest)
+
+data <- read_csv('data/clean.csv') %>% 
+  mutate(DPOY = as.factor(DPOY)) %>% 
+  rename(tm_DRB = DRB_x,
+         DRB = DRB_y) %>% 
+  mutate(tm_DRB = 82 * tm_DRB,
+         vote_getter = as.factor(ifelse(Share > 0.0, "Yes", "No")),
+         BLK = round(BLK * GP, digits = 0),
+         STL = round(STL * GP, digits = 0),
+         Wingspan = if_else(is.na(Wingspan), `WINGSPAN (in)`, Wingspan)
+         )
+
+teams_data <- read_csv('data/stathead_team_stats.csv')
+
+completed_data <- read_csv('data/imputed_data.csv')
+```
+
+# Introduction
+
+In the NBA, the Defensive Player of the Year award can often be controversial. This primarily is because defense is difficult to quantify and interpret in comparison to offensive production. The goal for this is to make the best effort to determine objectively who the most efficient and self-producing defender was this season. Keep in mind we are focusing on the individuals impact to their team.
+
+# Variable Table
+
+When it came to choosing the variables for this analysis that I want to focus on, I arbitrarily will be focusing on the following individual player variables.
+
+```{r varTbl}
+# Create the data frame with new variables
+variables <- 
+  data.frame(
+    Variable = c('Deflections', 'charges', 'contested_shots', 'BLK', 'STL', 
+                 'DBPM', 'DRB', 'DFG_PCT'),
+    Description = c("Number of deflections", "Number of charges drawn", 
+                    "Number of contested shots", "Number of blocks", 
+                    "Number of steals", "Defensive Box Plus/Minus",
+                    "Defensive Rebounds", "Defensive Field Goal Percentage"
+                    ),
+    Type = c( rep("Integer", 5), "Numeric", "Integer", "Numeric")
+  )
+
+# Create the table using kableExtra
+var_tbl <- 
+  variables %>%
+  kbl(caption = "Table of Variables", booktabs = TRUE, format = "latex") %>% 
+  kable_styling(latex_options = c("HOLD_position", "striped", "scale_down"),
+                stripe_color = "#e6e6fa", font_size = 12) %>% 
+  row_spec(0, bold = TRUE, align = "c") 
+
+var_tbl
+```
+
+I decided to use the variables above because of the available defensive statistics in basketball, these variables have the most direct explanation of a players defensive capabilities. I made the decision to include the `contested_shots` because I don't believe it's fair to compare players defensive qualities unless they contest and play a similar volume of shots. I will discuss further why I decided to include certain variables such as `charges`.
+
+# Exploratory Data Analysis
+
+## Position's Impact on Receiving DPOY Votes
+
+```{r dpoyVotePos}
+# Filter those players who have received votes
+dpoy_votes <- 
+  data %>% 
+  filter(Share > 0.0)
+
+# position frequencies for those receiving DPOY votes
+pos_counts <- 
+  as.data.frame(table(dpoy_votes$Position)) %>% 
+  mutate(Freq = Freq / nrow(dpoy_votes))
+
+# Create the plot
+ggplot(pos_counts, aes(x = Var1, y = Freq, fill = Var1)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Positions of DPOY Vote Recipients",
+       x = "Position",
+       y = "Proporition of Vote Recipients") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  scale_fill_discrete(name = "Position",
+                      labels = c("C" = "Center", 
+                                 "F" = "Forward",
+                                 "G" = "Guard")) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    axis.text.x = element_text(size = 14),
+    axis.text.y = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14)
+  )
+  
+```
+
+As we can see from the chart above, a majority of Defensive Player of the Year vote recipients are those whose primary position is Forward, followed by Centers, and Guards. This is reasonable as Forwards often have more involved all-around roles on both offense and defense, think Lebron James. Defensive centers can be praised for their "anchoring" of the defense, think Dikembe Mutombo or Ben Wallace.
+
+## Positional Impact on Winning Defensive Player of the Year
+
+```{r dpoyWinPos}
+# Filter those players who have won Defensive Player of the Year
+dpoy_winners <- 
+  data %>% 
+  filter(DPOY == 1)
+
+# Position counts of the Defensive Player of the Year winners
+pos_counts <- 
+  as.data.frame(table(dpoy_winners$Position)) %>% 
+  mutate(Freq = Freq / nrow(dpoy_winners))
+
+
+ggplot(pos_counts, aes(x = Var1, y = Freq, fill = Var1)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Positions of DPOY Winner",
+       x = "Position",
+       y = "Proporition of Winners") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  scale_fill_discrete(name = "Position",
+                      labels = c("C" = "Center", 
+                                 "F" = "Forward",
+                                 "G" = "Guard")) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    axis.text.x = element_text(size = 14),
+    axis.text.y = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14)
+  )
+  
+```
+
+In the last 11 years, there has only been one Defensive Player of the Year who was a Guard and this was Marcus Smart in 2021-22. Perhaps this suggests that voters in recent years are biased towards Center and Forwards, and may inherently devalue the credible defending capabilities of guards. Perhaps this suggest that the voters don't value defensive performance statistics, and there is some extraneous factor they value highly.
+
+## Taking a Look at Defensive Rankings
+
+To be clear for the following defensive graphs and metrics you will see concerning Defensive Rankings are created utilizing only the data for those who were in the top $80\%$ of the NBA's DFGA season-by-season. I did this because I believe it's only fair for ranking purposes to compare only those players who see similar amounts of defensive volume.
+
+```{r defRankings}
+# Median = 1091
+# Mean = 1076.9
+dfga_data <- 
+  data %>% 
+  group_by(Season) %>% 
+  summarise(mean_DFGA = mean(DFGA),
+            high = quantile(DFGA, 0.8))
+
+# add the 80th percentile data
+completed_data <- 
+  completed_data %>% 
+  inner_join(dfga_data %>% 
+               select(Season, high), 
+             by = "Season")
+
+# variables to be ranked
+higher_is_better <- c('Deflections', 'charges', 'BLK', 'STL', 
+                      'DBPM', 'DRB')
+lower_is_better <- c('DFG_PCT')
+
+# Re-rank the data
+ranked_data <-
+  completed_data  %>% 
+  # Remove Seasons for which "hustle" stats didn't exist
+  # Filter players in the top 20% of DFGA faced ("high volume defender")
+  filter(DFGA >= high | DPOY == 1) %>%
+  select(!ends_with("_rank")) %>% 
+  group_by(Season) %>%
+  # Create rank variables for the variables above
+  mutate(across(all_of(higher_is_better), ~ percent_rank(.), 
+                .names = "{.col}_percentile"),
+         across(all_of(lower_is_better), ~ 1-percent_rank(.), 
+                .names = "{.col}_percentile")
+         ) %>% 
+  ungroup()
+
+# Calculate the average rank of the data
+ranked_data <- 
+  ranked_data %>% 
+  # to ensure the operation is done to the rows of the dataframe
+  rowwise() %>% 
+  mutate(average_percentile = mean(c_across(ends_with("_percentile")), na.rm = TRUE)) %>% 
+  ungroup()
+
+# Step 1: Calculate max average_percentile for each season
+max_avg_percentile <- 
+  ranked_data %>%
+  group_by(Season) %>%
+  summarise(max_average_percentile = max(average_percentile)) %>%
+  ungroup()
+
+# Step 2: Calculate average_percentile for DPOY winner for each season
+dpoy_avg_percentile <- 
+  ranked_data %>%
+  filter(DPOY == 1) %>%
+  select(Season, average_percentile) %>%
+  rename(dpoy_average_percentile = average_percentile)
+
+# Step 3: Calculate second-highest average_percentile for each season
+second_avg_percentile <- 
+  ranked_data %>%
+  group_by(Season) %>%
+  arrange(desc(average_percentile)) %>%
+  slice_max(order_by = average_percentile, n = 2, with_ties = FALSE) %>%
+  filter(row_number() == 2) %>%
+  select(Season, average_percentile) %>%
+  rename(second_average_percentile = average_percentile) %>%
+  ungroup()
+
+# Step 4: Merge the data and calculate the differences
+ranked_data <- ranked_data %>%
+  left_join(max_avg_percentile, by = "Season") %>%
+  left_join(dpoy_avg_percentile, by = "Season") %>%
+  left_join(second_avg_percentile, by = "Season") %>%
+  mutate(diff_DPOY = average_percentile - dpoy_average_percentile,
+         diff_2nd = average_percentile - second_average_percentile,
+         across(.cols = c(average_percentile, diff_DPOY, diff_2nd), 
+                .fns = ~. * 100)
+         )
+
+# Top 5 Defensive Players by average ranking (closer to 1 = better)
+top_5_def <- 
+  ranked_data %>% 
+  group_by(Season) %>% 
+  arrange(desc(average_percentile)) %>% 
+  # show the top 5 results by season
+  slice_head(n = 5) %>% 
+  select(Player, Season, average_percentile, DPOY, diff_DPOY, diff_2nd) %>% 
+  ungroup() %>% 
+  arrange(desc(Season)) %>% 
+  filter(!(Season %in% c("2013-14", "2014-15", "2015-16")))
+
+# The highest ranked defenders in each Season
+defensive_elite <-
+  ranked_data %>% 
+  group_by(Season) %>% 
+  # select the observation with the lowest rank within the Season
+  filter(average_percentile == max(average_percentile)) %>% 
+  select(Player, Season, average_percentile, DPOY, diff_DPOY, diff_2nd) %>%
+  ungroup() %>% 
+  arrange(desc(Season)) %>% 
+  filter(!(Season %in% c("2013-14", "2014-15", "2015-16")))
+
+defense_24 <- 
+  ranked_data %>% 
+  filter(Season == "2023-24") %>% 
+  select(Player, Season, average_percentile, DPOY, diff_DPOY, diff_2nd) %>% 
+  arrange(desc(average_percentile)) %>% 
+  # show the top 5 results
+  slice_head(n = 5)
+```
+
+### Why does taking Charges Matter in Basketball?
+
+One of the variables I'm suspecting some uproar about is the `charges` variable due to the fact that one might argue charges don't impact basketball that much. I'm hoping that argument doesn't arise, because to me that is nonsense. A charge results in a new offensive possession for your team strictly because of your ability to properly defend, that's meaningful in my eyes. 
+
+I am interested in investigating how Weight affects the ability to take charges. I figure another point that might be brought to light is the idea that the more you weigh the more difficult it will be to take a charge. I don't find this to necessarily be true. I think this is more circumstantial, and it depends on the quality of the defender. A good defender who is large can still draw charges, it might just take a little bit more effort but I can't comment on that.
+
+```{r chargesPlot}
+charges_info <- 
+  data %>% 
+  filter(!(Season %in% c("2013-14", "2014-15", "2015-16"))) %>% 
+  select(Player, Season, Position, charges, Height, Weight) %>% 
+  group_by(Season) %>% 
+  arrange(desc(charges)) %>% 
+  slice_head(n=10) %>% 
+  mutate(charge_leader = ifelse(charges == max(charges), 1, 0),
+         weight_240 = ifelse(Weight >= 240, "At least 240 lbs", "Under 240 lbs")) %>% 
+  ungroup() %>% 
+  count(weight_240) %>%
+  mutate(proportion = n / sum(n))
+
+# Create the ggplot
+charges_plot <-
+  ggplot(charges_info, aes(x = weight_240, y = proportion, fill = weight_240)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = scales::percent(proportion, accuracy = 1)), 
+            position = position_stack(vjust = 0.5), 
+            color = "black", size = 10) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(title = "Charge Leaders Over and Under 240 lbs",
+       x = "Weight Category",
+       y = "Percentage") +
+  theme_minimal() +
+  theme(legend.position = "none",
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    axis.text.x = element_text(size = 14),
+    axis.text.y = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14)
+  )
+charges_plot
+```
+
+As we can see my point stands. Since 2016-17, one-third of the charges taken leaders each season in the NBA has been at least 240 lbs. For reference within our data set the mean and median weights were both right around 220 lbs. This highlights the importance of taking charges on defense as a metric to establish individual success.
+
+### Why include Defensive Rebounding?
+
+Rebounding is an important aspect of NBA success when looking at the overall totals. Is it more important on offense versus when on defense? I'm not really sure, but anyways this article is about defense so we'll talk about defense. My main interests for including `DRB` as a variable are Rudy Gobert's elite defensive rebounding capabilities, and to highlight the flaws of the `DWS` statistics which accounts for `DRB` in its calculations. 
+
+```{r dRebPlot}
+top_10_rebounding <- data %>%
+  group_by(Season) %>%
+  arrange(desc(DRB)) %>%
+  slice_head(n = 10) %>%
+  ungroup() %>%
+  group_by(Player) %>%
+  summarise(top_10_count = n()) %>%
+  arrange(desc(top_10_count)) %>% 
+  slice_head(n=10)
+
+top_10_reb_plot <-
+  ggplot(top_10_rebounding, aes(x = reorder(Player, -top_10_count), y = top_10_count, fill = Player == "rudy gobert")) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("lightblue", "#E87F83"), guide = "none") +
+  labs(title = "Frequency of Top 10 for Defensive Rebounding",
+       x = "Player",
+       y = "Top 10 Count") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    axis.text.x = element_text(size = 14, angle = 45, vjust = 0.85, 
+                               hjust = 0.85),
+    axis.text.y = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14)
+  )
+top_10_reb_plot
+```
+
+One of Gobert's best arguments for his DPOY candidacy most years is his incredible Defensive Rebounding skills. As we can see from the plot above Rudy Gobert is one of only 4 players who have the distinction of finishing top 10 in defensive rebounding 7 out of the past 11 seasons. This is incredible, and beats the number of elite rebounders such as Andre Drummond and DeAndre Jordan but this number is based off totals whereas those two players do not log large minutes in recent years.
+
+The reason I'm even addressing Defensive Rebounds is to try to give credit to Gobert's strengths. We all know he's great with blocks, and Defensive field goal percentage but Defensive Rebounds are important for defense. Are they as important as advanced metrics give them credit? No, other stats such as Deflections, Blocks, charges etc. have a more meaningful explanation for individual defensive quality in the game of basketball.
+
+# How does a player get more DPOY Votes?
+
+For this process I decided to utilize the `xgboost` library along with the `tidymodels` interface to create a Gradient Boosted Decision Tree to analyze the important variables for predicting a DPOY `vote_getter` status (either "Yes" or "No").
+
+## Model Formula
+
+```{=latex}
+\begin{align*}
+\hat{y} &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_4 + \beta_5 x_5 + \beta_6 x_6 + \beta_7 x_7 \\
+        &\quad + \beta_8 x_8 + \beta_9 x_9 + \beta_{10} x_{10} + \beta_{11} x_{11} + \beta_{12} x_{12} + \beta_{13} x_{13} + \beta_{14} x_{14}
+\end{align*}
+```
+
+Where:
+
+```{=latex}
+\begin{table}[H]
+\centering
+\caption{Explanation of Variables in the Regression Equation}
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{12}{14}\selectfont
+\begin{tabular}{cccc}
+\toprule
+\multicolumn{1}{c}{\textbf{variable}} & \multicolumn{1}{c}{\textbf{variable name}} & \multicolumn{1}{c}{\textbf{variable}} & \multicolumn{1}{c}{\textbf{variable name}} \\
+\midrule
+\cellcolor[HTML]{e6e6fa}{$\hat{y}$} & \cellcolor[HTML]{e6e6fa}{Predicted variable (vote\_getter)} & \cellcolor[HTML]{e6e6fa}{$x_7$} & \cellcolor[HTML]{e6e6fa}{charges} \\
+$\beta_0$ & Intercept term & $x_8$ & def\_LB \\
+\cellcolor[HTML]{e6e6fa}{$x_1$} & \cellcolor[HTML]{e6e6fa}{Season} & \cellcolor[HTML]{e6e6fa}{$x_9$} & \cellcolor[HTML]{e6e6fa}{Deflections} \\
+$x_2$ & BLK & $x_{10}$ & Height \\
+\cellcolor[HTML]{e6e6fa}{$x_3$} & \cellcolor[HTML]{e6e6fa}{DWS} & \cellcolor[HTML]{e6e6fa}{$x_{11}$} & \cellcolor[HTML]{e6e6fa}{Weight} \\
+$x_4$ & DBPM & $x_{12}$ & MP \\
+\cellcolor[HTML]{e6e6fa}{$x_5$} & \cellcolor[HTML]{e6e6fa}{DRtg} & \cellcolor[HTML]{e6e6fa}{$x_{13}$} & \cellcolor[HTML]{e6e6fa}{w\_L\_pct} \\
+$x_6$ & DFG\_PCT & $x_{14}$ & DRB \\
+\bottomrule
+\end{tabular}}
+\end{table}
+```
+
+## Data Cleaning process
+
+Most of my data cleaning process was performed utilizing `Python` prior to the development of the actual report. Details for this can be found on the GitHub for this project [INSERT LINK HERE].
+
+The most critical thing I want to discuss for the data cleaning process for model development was the data imputation. I decided to utilize the Multiple Imputation by Chained Equations process (`mice` library in R). If you would like to read more about it [INSERT MICE LINK]. I found this to be a possibly good use for this process because without imputation we still have a little more than $1,700$ observations in our dataset. This is a substantial amount of data for the process to base its decision on. The imputation used is important to keep in the back of your mind for the model, and it's interpretations as for 2013-14 through the end of 2015-16 season there are imputations contained. Prior to 2016-17, there were no "hustle" defensive stats measured which is why these values were missing.
+
+## Hyperparameter Tuning process
+
+I utilized the `tune` interface of `tidymodels` to Hyperparameter tune the Gradient Boosted Tree in order to ensure the best performance given our training data. I utilized a 500 row random search matrix created using the `grid_latin_hypercube()` function, which searched for the ideal parameters of the `boost_tree` model with the exceptions of `sample_size` and `stop_iter` which I restricted to $1$ and $5$ respectively.
+
+### Tuned Model Parameters
+
+```{=latex}
+\begin{table}[H]
+\centering
+\caption{Hyperparameter Values}
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{12}{14}\selectfont
+\begin{tabular}{cc}
+\toprule
+\multicolumn{1}{c}{\textbf{hyperparameter}} & \multicolumn{1}{c}{\textbf{value}} \\
+\midrule
+\cellcolor[HTML]{e6e6fa}{mtry} & \cellcolor[HTML]{e6e6fa}{6} \\
+trees & 138 \\
+\cellcolor[HTML]{e6e6fa}{min\_n} & \cellcolor[HTML]{e6e6fa}{3} \\
+tree\_depth & 8 \\
+\cellcolor[HTML]{e6e6fa}{learn\_rate} & \cellcolor[HTML]{e6e6fa}{\num{7.990051e-02}} \\
+loss\_reduction & \num{6.486839e-03} \\
+\cellcolor[HTML]{e6e6fa}{sample\_size} & \cellcolor[HTML]{e6e6fa}{1} \\
+stop\_iter & 5 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+```
+
+
+```{r boostModel}
+# Prepare the data
+model_data <- 
+  data %>% 
+  select(BLK, DWS, DBPM, DRtg, DRB, DFG_PCT, charges, Deflections, def_LB, Height,
+         Weight, Position, vote_getter, Share, MP, `W/L%`, Player, Season,
+         DFGA, DPOY, STL) %>% 
+  mutate(Position = as.factor(Position),
+         Season = as.factor(Season)) %>% 
+  rename(w_L_pct = `W/L%`)
+
+# set.seed(1)
+# # Impute the missing data using mice
+# imputed_data <- mice(model_data, m = 10, method = 'pmm', maxit = 200, seed = 1)
+# 
+# # Complete the data with imputed values
+# completed_data <- complete(imputed_data, 1)
+# 
+# write_csv(completed_data, 'data/imputed_data.csv')
+
+# Split the data
+set.seed(1)
+# stratify it based upon `vote_getter` status to not have lopsided data
+data_split <- initial_split(completed_data, prop = 0.70, strata = vote_getter)
+train <- training(data_split)
+test <- testing(data_split)
+
+# Define the model with appropriate parameters
+boost_model <-
+  boost_tree(mtry = 6,
+             trees = 133,
+             min_n = 4,
+             tree_depth = 8,
+             learn_rate = 0.0800904424615634,
+             loss_reduction = 8.27038035223282e-07,
+             sample_size = 1,
+             stop_iter = 5L) %>%
+  set_engine("xgboost") %>%
+  set_mode("classification")
+
+# ## Model used for the Hyperparameters tuning process
+# 
+# boost_model <-
+#   boost_tree(mtry = tune(),
+#              trees = tune(),
+#              min_n = tune(),
+#              tree_depth = tune(),
+#              learn_rate = tune(),
+#              loss_reduction = tune(),
+#              sample_size = 1,
+#              stop_iter = 5L) %>%
+#   set_engine("xgboost") %>%
+#   set_mode("classification")
+
+# Create the recipe with cleaned data
+boost_recipe <- 
+  recipe(vote_getter ~ Season + BLK + DWS + DBPM + DRtg + DFG_PCT + 
+           charges + def_LB + Deflections + Height + Weight + MP + w_L_pct + 
+           DRB, 
+         data = train) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>% 
+  step_zv(all_predictors()) %>% 
+  step_normalize(all_numeric_predictors())
+
+# Create the workflow with cleaned data
+boost_wf <- 
+  workflow() %>% 
+  add_recipe(boost_recipe) %>% 
+  add_model(boost_model)
+```
+
+
+```{r paramTuning, eval=FALSE}
+# Cross-validation folds with cleaned data
+set.seed(1)
+boost_folds <- vfold_cv(train, v = 10)
+
+# Create a random grid of parameters for model tuning with cleaned data
+boost_grid <- grid_latin_hypercube(
+  mtry(range = c(2, 10)),
+  trees(range = c(50, 150)),
+  min_n(range = c(2, 20)),
+  tree_depth(range = c(3, 15)),
+  learn_rate(),
+  loss_reduction(),
+  size = 500
+)
+
+# Begin parallel processing
+all_cores <- parallel::detectCores(logical = FALSE)
+cl <- makePSOCKcluster(all_cores - 5)
+registerDoParallel(cl)
+
+# The metrics to collect during the tuning process
+class_metrics <- metric_set(accuracy, roc_auc, yardstick::specificity)
+
+# Control settings
+control <- control_grid(save_pred = TRUE, verbose = TRUE)
+
+# Perform the tuning process with cleaned data
+boost_tune_res <- tune_grid(
+  boost_wf,
+  resamples = boost_folds,
+  grid = boost_grid,
+  control = control,
+  metrics = class_metrics
+)
+
+# Update the model parameters to the best parameters from the tuning result
+# measured by highest specificity
+best_parameters <- select_best(boost_tune_res, metric = "specificity")[, 1:6]
+
+# Update the + Model to the parameters with the "best" (lowest) RMSE
+boost_model <-
+  finalize_model(boost_model, parameters = best_parameters)
+
+# Update the + Workflow
+boost_wf <-
+  workflow() %>%
+  add_recipe(boost_recipe) %>%
+  add_model(boost_model)
+
+stopCluster(cl)
+```
+
+## Model Metrics and Performance
+
+```{r modelMetrics}
+# Cross-validation folds with cleaned data
+set.seed(1)
+boost_folds <- vfold_cv(train, v = 10)
+
+# Begin parallel processing
+all_cores <- parallel::detectCores(logical = FALSE)
+cl <- makePSOCKcluster(all_cores - 5)
+registerDoParallel(cl)
+
+# The metrics to collect during the tuning process
+class_metrics <- metric_set(accuracy, roc_auc, yardstick::specificity)
+
+# 10-fold Cross Validation
+set.seed(1)
+boost_crossval <-
+  boost_wf %>% 
+  tune::fit_resamples(resamples = boost_folds,
+                metrics = class_metrics)
+
+# Cross Validation Metrics
+boost_metrics <- 
+  boost_crossval %>% 
+  collect_metrics() %>% 
+  select(-.config, -n) %>% 
+  mutate(across(.cols = c(mean, std_err), ~round(., digits = 4)))
+
+
+# Fit the boost_tree Workflow to the training data
+set.seed(1)
+boost_fit <- 
+  boost_wf %>% 
+  fit(data = train)
+
+# Make Predictions using the fitted boost Model on the Testing Data
+boost_predictions <- 
+  boost_fit %>% 
+  # make predictions on the testing data set
+  predict(test) %>%  
+  # rename the predictions as `estimate`
+  rename(estimate = .pred_class) %>% 
+  # add the true results, Player, Season, W/L%
+  cbind(test$vote_getter, test$Player, test$Season, test$w_L_pct, test$Height, 
+        test$Weight) %>% 
+  # rename the true results to `truth`
+  rename(truth = `test$vote_getter`) %>% 
+  mutate(truth = as.factor(truth))
+
+# Confusion Matrix of the prediction results
+conf_mat <-
+  confusionMatrix(boost_predictions$estimate, boost_predictions$truth)
+
+# Players who were likely overlooked, and a result did not receive
+# DPOY votes when they likely should have
+overlooked <-
+  boost_predictions %>% 
+  filter(estimate == "Yes") %>% 
+  filter(truth != estimate)
+
+# Players who were likely over rated, and a result should not have received
+# DPOY votes when they did receive votes
+over_rated <-
+  boost_predictions %>% 
+  filter(estimate == "No") %>% 
+  filter(truth != estimate) 
+
+# Variable Importance Plot
+vip_plot <- 
+  boost_fit %>% 
+  extract_fit_parsnip() %>% 
+  vip(geom = "point") +
+  labs(title = "Variable Importance Plot")
+
+stopCluster(cl)
+```
+
+### 10 Fold Cross-validation Performance
+
+```{r cvPerf}
+boost_metrics %>% 
+  kbl(caption = "Cross-Validation Metrics", booktabs = TRUE, 
+      format = "latex") %>% 
+  kable_styling(latex_options = c("HOLD_position", "striped", "scale_down"),
+                stripe_color = "#e6e6fa", font_size = 12) %>% 
+  row_spec(0, bold = TRUE, align = "c")
+```
+
+From the cross-validation metrics we are able to see the model has a high performance accuracy of 0.9568, which is outstanding performance. The `roc_auc` being 0.9556 also indicates that we are relatively close to a near perfect predictor for the data set. However the one thing of important note is the relatively poor performance of `specificity`. This is likely due to the limited occurrences of those receiving DPOY votes, with about 10-15 people per year receiving votes. 
+
+## Performance on Test Data
+
+```{r testPerf}
+# Assuming `conf_mat` is your confusion matrix object
+overall_metrics <- conf_mat$overall[-c(2:5, 7)]
+class_metrics <- conf_mat$byClass[c(1:4, 11)]
+
+# Combine the metrics into a single named vector
+metrics <- c(overall_metrics, class_metrics)
+
+metrics_df <- data.frame(
+  Metric = names(metrics),
+  Value = as.numeric(metrics)
+) %>% 
+  mutate(Value = round(Value, digits = 3))
+
+# Render the table
+metrics_df %>% 
+  kbl(caption = "Table of Test Data Performance", booktabs = TRUE, 
+      format = "latex") %>% 
+  kable_styling(latex_options = c("HOLD_position", "striped", "scale_down"),
+                stripe_color = "#e6e6fa", font_size = 12) %>% 
+  row_spec(0, bold = TRUE, align = "c")
+```
+
+On the `test` data set we achieved a high Accuracy of $96.4\%$ along with a high Sensitivity of $98.2\%$ pointing to the fact that the model excels at predicting when players will not receive DPOY votes. However I want to highlight a few lower-performing metrics. The Specificity achieved is $65.9\%$, which outperformed the cross-validation significantly. Additionally, the `AccuracyPValue` is less than 0.05. This indicates that at a 95% confidence level there is significant evidence to indicate that the model's Accuracy is better than a model achieved from randomly guessing. 
+
+This table suggests that the model we have created using this imputed data performs at a high level overall, despite my desire for higher Specificity.
+
+## Variable Importance Plot
+
+```{r vipPlot}
+vip_plot +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title.x = element_text(size = 16, face = "bold"),
+    axis.title.y = element_text(size = 16, face = "bold"),
+    axis.text.x = element_text(size = 14),
+    axis.text.y = element_text(size = 14),
+    legend.title = element_text(size = 16, face = "bold"),
+    legend.text = element_text(size = 14)
+  )
+```
+
+From the Variable Importance Plot of the model above we can highlight the 5 most important variables for determining who will receive a DPOY vote. These 5 variables are
+
+- `DWS` - Defensive Win Shares
+- `BLK` - Player's Total Blocks
+- `MP` - Minutes Played
+- `Deflections` - Pass Deflections
+- `DBPM` - Defensive Box Plus-Minus
+
+This goes along with what I would assume. To me these are 4 of the 5 best metrics we have for defining an NBA player's individual defensive impact. The only one of these variables I find problematic is `DWS` due to the method used for calculating it which I will discuss further.
+
+### Calculating Defensive Win Shares (DWS)
+
+Defensive Win Shares are calculated using the formula:
+
+$$\text{DWS} = \frac{\text{marginal defense}}{\text{marginal points per win}}$$
+
+For further understanding of the formula I'd suggest visiting [INSERT LINK TO BASKETBALL REFERENCE] to have a better idea of marginal defense and marginal points per win specifically. However to quickly address the flaws I find is the dependence on both Defensive Rating and a team's defensive possessions per game for marginal defense. Marginal points per win also utilizes PACE for part of the equation. The problems with Pace and Defensive Rating in my mind are the fact they don't really indicate defensive performance. Their both per 100 possession stats, and all they imply is how fast your team plays and to some degree how much your defense can slow down the other team. Anyone who watches basketball knows these stats are flukey and rather questionable interpretation.
+
+## Interpretation of the Model
+
+My goal with creating this model is to try and quantitatively understand what persuades an NBA DPOY voter to choose certain players. I believe I have mildly accomplished this goal. The model was able to achieve a moderately high Specificity while achieving an extraordinary Sensitivity on the testing data. While it could perform poorly on future data, for what we have right now I would say it's a pretty amazing start.
+
+# Who Deserved the DPOY Awards?
+
+## The Highest Ranked Defenders from Each Season
+
+```{r tblTopDef}
+defensive_elite %>% 
+  mutate(across(is.numeric, ~round(., digits = 2))) %>% 
+  kbl(caption = "Table Highest Ranked Defenders", booktabs = TRUE, 
+      format = "latex", longtable = TRUE) %>% 
+  kable_styling(latex_options = c("HOLD_position", "striped", "scale_down"),
+                stripe_color = "#e6e6fa", font_size = 12) %>% 
+  row_spec(0, bold = TRUE, align = "c")
+```
+
+From this table above we are able to see the top ranked defenders by `average_percentile` variable since 2013-14 season. 
+
+I want to highlight the interesting part is the estimation suggests only Draymond Green's 2016-17 Season to be the only year in which the voters correctly determined the objectively best defender through these metrics. I find it important to highlight that often in these rankings too the highest rater defender is substantially higher ranking than the person who did win DPOY. This includes 2017-18, 2022-23, 2023-24 where all the highest ranked defenders did not win DPOY yet were almost 25 percentile points better on average than the DPOY winner for that year.
+
+## Let's talk about 2023-24
+
+```{r}
+gob_wemb <- ranked_data %>% 
+  filter(Season == "2023-24", 
+         Player %in% c("rudy gobert", "victor wembanyama")) %>% 
+  select(Player, ends_with("percentile"), -max_average_percentile,
+         -dpoy_average_percentile, -second_average_percentile) %>% 
+  mutate(across(.cols = c(Deflections_percentile, charges_percentile, 
+                          BLK_percentile, STL_percentile, DBPM_percentile,
+                          DRB_percentile, DFG_PCT_percentile),
+                .fns = ~. * 100))
+
+gob_wemb %>% 
+  mutate(across(is.numeric, ~round(., digits = 2))) %>% 
+  rename_with(~ gsub("_percentile$", " \\%ile", .x), ends_with("_percentile")) %>% 
+  kbl(caption = "Rudy and Wemby", booktabs = TRUE, 
+      format = "latex") %>% 
+  kable_styling(latex_options = c("HOLD_position", "striped", "scale_down"),
+                stripe_color = "#e6e6fa", font_size = 12) %>% 
+  row_spec(0, bold = TRUE, align = "c")
+```
+
+Now remember these `%tile` variable are their percentile rankings among high volume defensive players similar to their roles. This "high volume" refers to those players who were in the top $20\%$ DFGA by season. Now as we can see from this Wembanyama was only worse at Defensive Rebounding, and significantly worse at Defensive field goal percentage. The defensive field goal percentage is problematic for sure, but it likely has to do with his immaturity as a defender which he'll grow out of with more experience. 
+
+I want to highlight how Wemby's defensive game is significantly more versatile. Wemby is doing everything, he's in the top $20\%$ of these high volume defenders for deflections, charges, total blocks, total steals, defensive box plus-minus, and even defensive rebounding. Again his weakness comparatively is his defensive field goal percentage. 
+
+Gobert on the other hand is pretty much just the king of the interior. He's great at getting blocks, and preventing people from making shots but he doesn't contribute much outside of this.
+
+I want to acknowledge that both of these guys have a tremendous effect on their respective team's defenses as Wemby is in the 97th percentile for Defensive Box Plus-Minus, and Gobert is in the 74th percentile. This is stellar for the both of them. I'll admit defensive box plus-minus is not a flawless statistic, as it neglects lineup combinations. For example, one of the reasons Wemby is in such a high percentile for `DBPM` is because the Spurs were terrible at defense overall this year. When Wemby was off the court they might as well not even have played defense. Once Wemby stepped onto the court his impact was felt immediately, which leads to his high defensive box plus-minus.
+
+# Looking Forward and Future Considerations
+
+Overall I don't think there's much more to be said regarding how voters choose for the Defensive Player of the Year award. There's no perfect method for determining who gets votes, and often we're nowhere close to choosing them correctly (based on my rankings). 
+
+Looking forward I hope analysis like this can be utilized to perhaps build a higher performing and more sound model. Perhaps it could even be used as a suggestion for future decisions concerning the future defensive player of the year. It may not be the perfect set up and rankings, but I believe it's better than whatever methods the voters are utilizing. The so called "eye test" often fails to meet the mark, and this is shown in the rankings. It shouldn't come about that so often these players who are doing all they can on defense to better their team lose to players who are simply highly specialized in one aspect of defense.
+
+# Conclusion
+
+From the data I have presented we were able to come to the following conclusions. Rudy Gobert likely should not have been Defensive Player of the Year in the 2023-24 season, it should have been awarded to Rookie of the Year Victor Wembanyama. I discovered that this is not the only time it has happened in recent memory. In fact, it is the 6th time in the last 7 seasons that the winner of the award was not the highest ranked defender. I was able to build a model for predicting those who would simply receive Defensive Player of the Year votes, which performed moderately well. I think the model's importance is greater than one simply trying to predict the Defensive Player of the Year, because it's up to the voters and from what I've shown they're hard to predict.
+
+Hopefully further development can come along in this field of basketball analytics, as I believe defense needs the most attention from a statistical standpoint.
