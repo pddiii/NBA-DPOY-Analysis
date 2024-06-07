@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.29)  7 JUN 2024 12:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.29)  7 JUN 2024 15:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -297,14 +297,16 @@ Package graphics Info: Driver file: pdftex.def on input line 107.
 \Gin@req@height=\dimen178
 \Gin@req@width=\dimen179
 )
+\cslhangindent=\skip63
+\csllabelwidth=\skip64
 
 Package xcolor Warning: Package option `usenames' is obsolete and ignored on in
-put line 69.
+put line 102.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2024/02/20 v1.0g Color table columns (DPC)
 \everycr=\toks31
-\minrowclearance=\skip63
+\minrowclearance=\skip65
 \rownum=\count292
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/siunitx/siunitx.sty
 Package: siunitx 2024-02-15 v3.3.12 A comprehensive (SI) units package
@@ -350,9 +352,9 @@ Package pdftexcmds Info: \pdfdraftmode found.
 \l__siunitx_unit_total_int=\count306
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip64
+\multirow@colwidth=\skip66
 \multirow@cntb=\count307
-\multirow@dima=\skip65
+\multirow@dima=\skip67
 \bigstrutjot=\dimen185
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen186
@@ -409,7 +411,7 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \tabu@arstrutbox=\box75
 \tabu@hleads=\box76
 \tabu@vleads=\box77
-\tabu@cellskip=\skip66
+\tabu@cellskip=\skip68
 )
 (/usr/local/texlive/2024/texmf-dist/tex/latex/threeparttable/threeparttable.sty
 Package: threeparttable 2003/06/13  v 3.0
@@ -423,11 +425,11 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 (/usr/local/texlive/2024/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\TPTL@width=\skip67
+\TPTL@width=\skip69
 ) (/usr/local/texlive/2024/texmf-dist/tex/generic/ulem/ulem.sty
 \UL@box=\box79
 \UL@hyphenbox=\box80
-\UL@skip=\skip68
+\UL@skip=\skip70
 \UL@hook=\toks37
 \UL@height=\dimen199
 \UL@pe=\count317
@@ -538,7 +540,7 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 85.
 )
-\Hy@SectionHShift=\skip69
+\Hy@SectionHShift=\skip71
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
 File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO
 )
@@ -546,11 +548,11 @@ File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/xurl/xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 98.
+Package hyperref Info: Option `colorlinks' set `true' on input line 131.
 Package translations Info: No language package found. I am going to use `englis
-h' as default language. on input line 104.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 10
-4.
+h' as default language. on input line 138.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 13
+8.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -560,37 +562,37 @@ File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
 ) (./Report.aux)
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Info: Redefining \microtypecontext on input line 104.
-Package microtype Info: Applying patch `item' on input line 104.
-Package microtype Info: Applying patch `toc' on input line 104.
-Package microtype Info: Applying patch `eqnum' on input line 104.
-Package microtype Info: Applying patch `footnote' on input line 104.
-Package microtype Info: Applying patch `verbatim' on input line 104.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Info: Redefining \microtypecontext on input line 138.
+Package microtype Info: Applying patch `item' on input line 138.
+Package microtype Info: Applying patch `toc' on input line 138.
+Package microtype Info: Applying patch `eqnum' on input line 138.
+Package microtype Info: Applying patch `footnote' on input line 138.
+Package microtype Info: Applying patch `verbatim' on input line 138.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 104.
+LaTeX Info: Redefining \showhyphens on input line 138.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -659,42 +661,42 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 104.
-Package hyperref Info: Link coloring ON on input line 104.
+or `english'. on input line 138.
+Package hyperref Info: Link coloring ON on input line 138.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-06.
+40.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-06.
+40.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-106.
+140.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-106.
+140.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 106.
+(Font)              <12> on input line 140.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 106.
+(Font)              <8> on input line 140.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 106.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 106
+(Font)              <6> on input line 140.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 140
 .
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 106
+LaTeX Font Info:    Trying to load font information for U+msb on input line 140
 .
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -716,69 +718,73 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 [2]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-47.
+81.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-<Report_files/figure-latex/dpoyVotePos-1.pdf, id=67, 851.18pt x 312.16624pt>
+) [3]
+<Report_files/figure-latex/dpoyVotePos-1.pdf, id=86, 851.18pt x 312.16624pt>
 File: Report_files/figure-latex/dpoyVotePos-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/dpoyVotePos-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/dpoyVotePos-1.pdf  used on i
-nput line 153.
+nput line 201.
 (pdftex.def)             Requested size: 469.76094pt x 172.28261pt.
-[3 <./Report_files/figure-latex/dpoyVotePos-1.pdf>]
-<Report_files/figure-latex/dpoyWinPos-1.pdf, id=82, 851.18pt x 312.16624pt>
+<Report_files/figure-latex/dpoyWinPos-1.pdf, id=88, 851.18pt x 312.16624pt>
 File: Report_files/figure-latex/dpoyWinPos-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/dpoyWinPos-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/dpoyWinPos-1.pdf  used on in
-put line 159.
+put line 211.
 (pdftex.def)             Requested size: 469.76094pt x 172.28261pt.
-<Report_files/figure-latex/chargesPlot-1.pdf, id=83, 857.2025pt x 315.1775pt>
+[4 <./Report_files/figure-latex/dpoyVotePos-1.pdf> <./Report_files/figure-latex
+/dpoyWinPos-1.pdf>]
+<Report_files/figure-latex/chargesPlot-1.pdf, id=112, 857.2025pt x 315.1775pt>
 File: Report_files/figure-latex/chargesPlot-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/chargesPlot-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/chargesPlot-1.pdf  used on i
-nput line 173.
+nput line 231.
 (pdftex.def)             Requested size: 469.74937pt x 172.71814pt.
-[4{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc} <./Report_f
-iles/figure-latex/dpoyWinPos-1.pdf>]
-<Report_files/figure-latex/dRebPlot-1.pdf, id=97, 862.22125pt x 315.1775pt>
+<Report_files/figure-latex/dRebPlot-1.pdf, id=114, 857.2025pt x 315.1775pt>
 File: Report_files/figure-latex/dRebPlot-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/dRebPlot-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/dRebPlot-1.pdf  used on inpu
-t line 181.
-(pdftex.def)             Requested size: 469.74997pt x 171.71303pt.
-[5 <./Report_files/figure-latex/chargesPlot-1.pdf> <./Report_files/figure-latex
-/dRebPlot-1.pdf>] [6{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-m
-athit.enc}] [7{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.
-enc}]
-<Report_files/figure-latex/vipPlot-1.pdf, id=138, 838.13126pt x 315.1775pt>
+t line 244.
+(pdftex.def)             Requested size: 469.74937pt x 172.71814pt.
+[5 <./Report_files/figure-latex/chargesPlot-1.pdf>] [6{/usr/local/texlive/2024/
+texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2024/texmf-dist/fon
+ts/enc/dvips/lm/lm-mathit.enc} <./Report_files/figure-latex/dRebPlot-1.pdf>] [7
+{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+<Report_files/figure-latex/vipPlot-1.pdf, id=167, 838.13126pt x 315.1775pt>
 File: Report_files/figure-latex/vipPlot-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/vipPlot-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/vipPlot-1.pdf  used on input
- line 307.
+ line 371.
 (pdftex.def)             Requested size: 469.74677pt x 176.64728pt.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 3
-14.
+80.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [8{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc} <./Repor
 t_files/figure-latex/vipPlot-1.pdf>]
-Overfull \hbox (16.29591pt too wide) in alignment at lines 345--360
+Overfull \hbox (16.29591pt too wide) in alignment at lines 411--426
  [] [] [] [] [] [] 
  []
 
-[9] [10] (./Report.aux)
+LaTeX Font Info:    Calculating math sizes for size <16> on input line 450.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <16> on input line 450.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <11.19995> on input line 450.
+[9] [10] [11] (./Report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 19644 strings out of 474116
- 369114 string characters out of 5743682
+ 19741 strings out of 474116
+ 370713 string characters out of 5743682
  1945187 words of memory out of 5000000
- 41521 multiletter control sequences out of 15000+600000
- 616554 words of font info for 148 fonts, out of 8000000 for 9000
+ 41592 multiletter control sequences out of 15000+600000
+ 635598 words of font info for 166 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  77i,13n,81p,1003b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/lo
@@ -789,13 +795,14 @@ nts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/p
 ublic/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lm
 r17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></us
 r/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texl
-ive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/t
-exmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/f
-onts/type1/public/lm/lmtt10.pfb>
-Output written on Report.pdf (10 pages, 302181 bytes).
+ive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/t
+exmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/
+fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1
+/public/lm/lmtt10.pfb>
+Output written on Report.pdf (11 pages, 330176 bytes).
 PDF statistics:
- 311 PDF objects out of 1000 (max. 8388607)
- 254 compressed objects within 3 object streams
- 43 named destinations out of 1000 (max. 500000)
- 32986 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 371 PDF objects out of 1000 (max. 8388607)
+ 310 compressed objects within 4 object streams
+ 57 named destinations out of 1000 (max. 500000)
+ 43242 words of extra memory for PDF output out of 51595 (max. 10000000)
 
