@@ -1,0 +1,905 @@
+#,Player,Height,Wingspan,Length
+1,"Talen Horton-Tucker
+UTA | SG","6'2.5""","7'1.25""",10.75
+2,"Mo Bamba
+PHI | C","6'11.25""","7'10""",10.75
+3,"Jalen Williams
+OKC | SG","6'4.5""","7'2.25""",9.75
+4,"Isaiah Stewart
+DET | C","6'7.25""","7'4.75""",9.5
+5,"Robert Williams III
+POR | C","6'8""","7'5.5""",9.5
+6,"Udoka Azubuike
+PHX | C","6'10""","7'7.25""",9.25
+7,"Kawhi Leonard
+LAC | SF","6'6""","7'3""",9
+8,"Frank Ntilikina
+| PG","6'4""","7'1""",9
+9,"Bilal Coulibaly
+WAS | SF","6'6""","7'2.5""",9
+10,"Josh Okogie
+PHX | SF","6'3""","7'0""",9
+11,"Nassir Little
+PHX | SF","6'4.5""","7'1.25""",8.75
+12,"Reggie Jackson
+DEN | PG","6'2.5""","6'11.25""",8.75
+13,"Donovan Mitchell
+CLE | SG","6'1.25""","6'10""",8.75
+14,"Andre Drummond
+CHI | C","6'9.75""","7'6.25""",8.5
+15,"Thomas Bryant
+MIA | C","6'9.5""","7'6""",8.5
+16,"Kelly Oubre Jr.
+PHI | SF","6'5.75""","7'2.25""",8.5
+17,"Wendell Moore Jr.
+MIN | SG","6'4.25""","7'0.75""",8.5
+18,"Oscar Tshiebwe
+IND | C","6'7.25""","7'3.5""",8.25
+19,"Shake Milton
+NYK | SG","6'4.5""","7'0.75""",8.25
+20,"Jarrett Allen
+CLE | C","6'9""","7'5.25""",8.25
+21,"Moses Moody
+GSW | SG","6'4.5""","7'0.75""",8.25
+22,"DeAndre Jordan
+DEN | C","6'9.75""","7'6""",8.25
+23,"Anthony Davis
+LAL | C","6'9.25""","7'5.5""",8.25
+24,"Jerami Grant
+POR | PF","6'6.5""","7'2.75""",8.25
+25,"Keita Bates-Diop
+BKN | PF","6'7.25""","7'3.25""",8
+26,"Brandon Ingram
+NOP | SF","6'7""","7'3""",8
+27,"OG Anunoby
+NYK | SF","6'6.25""","7'2.25""",8
+28,"Jordan Walsh
+BOS | SF","6'5.75""","7'1.75""",8
+29,"P.J. Washington
+DAL | PF","6'6.5""","7'2.5""",8
+30,"Victor Wembanyama
+SAS | C","7'4""","8'0""",8
+31,"Rudy Gobert
+MIN | C","7'0.5""","7'8.5""",8
+32,"Jarace Walker
+IND | PF","6'6.5""","7'2.5""",8
+33,"Chris Boucher
+TOR | C","6'8""","7'4""",8
+34,"Keyontae Johnson
+OKC | SF","6'4""","7'0""",8
+35,"Wendell Carter Jr.
+ORL | C","6'8.75""","7'4.5""",7.75
+36,"Kevin Durant
+PHX | PF","6'9""","7'4.75""",7.75
+37,"Ryan Rollins
+MIL | PG","6'2""","6'9.75""",7.75
+38,"Miles McBride
+NYK | PG","6'1""","6'8.75""",7.75
+39,"Norman Powell
+LAC | SG","6'3""","6'10.75""",7.75
+40,"Terry Rozier
+MIA | PG","6'0.5""","6'8.25""",7.75
+41,"Aaron Holiday
+HOU | PG","5'11.75""","6'7.5""",7.75
+42,"Scottie Barnes
+TOR | SF","6'7""","7'2.75""",7.75
+43,"Robert Covington
+PHI | PF","6'6.25""","7'1.75""",7.5
+44,"MarJon Beauchamp
+MIL | SG","6'5.25""","7'0.75""",7.5
+45,"Draymond Green
+GSW | PF","6'5.75""","7'1.25""",7.5
+46,"Kevon Looney
+GSW | C","6'8""","7'3.5""",7.5
+47,"Bones Hyland
+LAC | PG","6'2""","6'9.5""",7.5
+48,"Jaren Jackson Jr.
+MEM | PF","6'9.75""","7'5.25""",7.5
+49,"Marcus Smart
+MEM | PG","6'2""","6'9.25""",7.25
+50,"Shaedon Sharpe
+POR | SG","6'4.25""","6'11.5""",7.25
+51,"Kyle Anderson
+MIN | PF","6'7.5""","7'2.75""",7.25
+52,"Mikal Bridges
+BKN | SF","6'5.75""","7'1""",7.25
+53,"Tari Eason
+HOU | PF","6'6.75""","7'2""",7.25
+54,"Jordan Miller
+LAC | SF","6'4.5""","6'11.75""",7.25
+55,"Pascal Siakam
+IND | PF","6'8.25""","7'3.25""",7
+56,"Charles Bassey
+SAS | C","6'9""","7'3.5""",7
+57,"Scoot Henderson
+POR | PG","6'2""","6'9""",7
+58,"Saben Lee
+PHX | PG","6'2""","6'9""",7
+59,"Shai Gilgeous-Alexander
+OKC | PG","6'4.5""","6'11.5""",7
+60,"JaVale McGee
+SAC | C","6'11""","7'6""",7
+61,"Isaiah Mobley
+CLE | PF","6'8""","7'3""",7
+62,"David Roddy
+PHX | PF","6'4.5""","6'11.5""",7
+63,"De'Andre Hunter
+ATL | SF","6'7""","7'2""",7
+64,"Vince Williams Jr.
+MEM | SG","6'4""","6'11""",7
+65,"Anfernee Simons
+POR | PG","6'2.25""","6'9.25""",7
+66,"Deandre Ayton
+POR | C","6'11""","7'6""",7
+67,"Haywood Highsmith
+MIA | SF","6'5""","6'11.5""",7
+68,"Eric Gordon
+PHX | SG","6'2""","6'9""",7
+69,"P.J. Tucker
+LAC | PF","6'4.5""","6'11.5""",7
+70,"Eugene Omoruyi
+WAS | SF","6'6""","7'1.25""",7
+71,"Naji Marshall
+NOP | SF","6'5.75""","7'0.75""",7
+72,"Terry Taylor
+CHI | PF","6'4.75""","6'11.5""",6.75
+73,"JT Thor
+CHA | PF","6'8.5""","7'3.25""",6.75
+74,"Malcolm Brogdon
+POR | PG","6'3.75""","6'10.5""",6.75
+75,"Mike Conley
+MIN | PG","5'11""","6'5.75""",6.75
+76,"Thanasis Antetokounmpo
+MIL | PF","6'5.25""","7'0""",6.75
+77,"Jalen Duren
+DET | C","6'10.25""","7'5""",6.75
+78,"Collin Sexton
+UTA | PG","6'0.5""","6'7.25""",6.75
+79,"James Harden
+LAC | SG","6'4""","6'10.75""",6.75
+80,"Dalen Terry
+CHI | SG","6'6""","7'0.75""",6.75
+81,"Lonnie Walker IV
+BKN | SG","6'3.75""","6'10.5""",6.75
+82,"Dennis Schroder
+BKN | PG","6'1""","6'7.75""",6.75
+83,"Trendon Watford
+BKN | PF","6'7.5""","7'2.25""",6.75
+84,"Ayo Dosunmu
+CHI | SG","6'3.5""","6'10.25""",6.75
+85,"Derrick Rose
+MEM | PG","6'1.5""","6'8""",6.5
+86,"Matisse Thybulle
+POR | SF","6'5""","6'11.5""",6.5
+87,"Naz Reid
+MIN | C","6'8.75""","7'3.25""",6.5
+88,"Christian Koloko
+| C","6'10.75""","7'5.25""",6.5
+89,"Patrick Beverley
+MIL | PG","6'0.5""","6'7""",6.5
+90,"D'Angelo Russell
+LAL | PG","6'3.25""","6'9.75""",6.5
+91,"Jaylen Brown
+BOS | SF","6'5.25""","6'11.75""",6.5
+92,"Clint Capela
+ATL | C","6'10""","7'4.5""",6.5
+93,"Bruno Fernando
+ATL | C","6'8.75""","7'3.25""",6.5
+94,"Mark Williams
+CHA | C","7'0""","7'6.5""",6.5
+95,"Xavier Tillman
+BOS | PF","6'7.5""","7'2""",6.5
+96,"Cameron Payne
+PHI | PG","6'0.75""","6'7.25""",6.5
+97,"Nikola Vucevic
+CHI | C","6'10.25""","7'4.5""",6.25
+98,"Cade Cunningham
+DET | SG","6'6""","7'0.25""",6.25
+99,"Jeff Green
+HOU | PF","6'7""","7'1.25""",6.25
+100,"Blake Wesley
+SAS | PG","6'3""","6'9.25""",6.25
+101,"Olivier-Maxence Prosper
+DAL | PF","6'6.75""","7'1""",6.25
+102,"Immanuel Quickley
+TOR | PG","6'2""","6'8.25""",6.25
+103,"Herbert Jones
+NOP | SF","6'6""","7'0.25""",6.25
+104,"Rui Hachimura
+LAL | PF","6'7.75""","7'2""",6.25
+105,"Bol Bol
+PHX | C","7'0.75""","7'7""",6.25
+106,"Brook Lopez
+MIL | C","6'11.25""","7'5.5""",6.25
+107,"De'Anthony Melton
+PHI | SG","6'2.25""","6'8.5""",6.25
+108,"Amen Thompson
+HOU | SG","6'5.75""","7'0""",6.25
+109,"E.J. Liddell
+NOP | PF","6'5.5""","6'11.75""",6.25
+110,"Myles Turner
+IND | C","6'9.75""","7'4""",6.25
+111,"Dominick Barlow
+SAS | PF","6'8.75""","7'3""",6.25
+112,"Ausar Thompson
+DET | SG","6'5.75""","7'0""",6.25
+113,"Caleb Martin
+MIA | SF","6'4""","6'10.25""",6.25
+114,"Anthony Edwards
+MIN | SG","6'3""","6'9""",6
+115,"Usman Garuba
+GSW | PF","6'8""","7'2""",6
+116,"Christian Wood
+LAL | PF","6'9.25""","7'3.25""",6
+117,"Cason Wallace
+OKC | PG","6'2.5""","6'8.5""",6
+118,"JD Davison
+BOS | PG","6'0.5""","6'6.5""",6
+119,"Justin Holiday
+DEN | SG","6'5.5""","6'11.5""",6
+120,"AJ Griffin
+ATL | SF","6'5.5""","6'11.5""",6
+121,"Kris Dunn
+UTA | PG","6'3""","6'9""",6
+122,"Boban Marjanovic
+HOU | C","7'4""","7'10""",6
+123,"Orlando Robinson
+MIA | C","6'10""","7'4""",6
+124,"Victor Oladipo
+| SG","6'3.25""","6'9.25""",6
+125,"Devonte' Graham
+SAS | PG","6'0.25""","6'6.25""",6
+126,"Derrick Jones Jr.
+DAL | PF","6'6""","7'0""",6
+127,"Gary Payton II
+GSW | SG","6'2""","6'8""",6
+128,"Josh Christopher
+| SG","6'3.25""","6'9.25""",6
+129,"Jalen Hood-Schifino
+LAL | PG","6'4.25""","6'10.25""",6
+130,"Cam Reddish
+LAL | SF","6'6.5""","7'0.5""",6
+131,"Ricky Rubio
+| PG","6'3""","6'9""",6
+132,"Larry Nance Jr.
+NOP | C","6'7.5""","7'1.5""",6
+133,"Robin Lopez
+| C","6'11.5""","7'5.5""",6
+134,"Malaki Branham
+SAS | SG","6'4""","6'10""",6
+135,"Dejounte Murray
+ATL | PG","6'4""","6'10""",6
+136,"Nathan Knight
+| PF","6'8""","7'2""",6
+137,"Markelle Fultz
+ORL | PG","6'3""","6'9""",6
+138,"Bam Adebayo
+MIA | C","6'8.75""","7'2.75""",6
+139,"Chet Holmgren
+OKC | C","7'0""","7'6""",6
+140,"Damian Lillard
+MIL | PG","6'1.75""","6'7.75""",6
+141,"Jonas Valanciunas
+NOP | C","6'11""","7'5""",6
+142,"Otto Porter Jr.
+| PF","6'7.5""","7'1.5""",6
+143,"Dereck Lively II
+DAL | C","7'1""","7'7""",6
+144,"Steven Adams
+HOU | C","6'10.75""","7'4.5""",5.75
+145,"Maxwell Lewis
+LAL | SG","6'6.25""","7'0""",5.75
+146,"Peyton Watson
+DEN | SF","6'6.75""","7'0.5""",5.75
+147,"Bruce Brown
+TOR | SG","6'3.25""","6'9""",5.75
+148,"TyTy Washington Jr.
+MIL | PG","6'2.25""","6'8""",5.75
+149,"Ochai Agbaji
+TOR | SG","6'4.5""","6'10.25""",5.75
+150,"Onyeka Okongwu
+ATL | C","6'8.25""","7'2""",5.75
+151,"Marcus Sasser
+DET | PG","6'1.25""","6'7""",5.75
+152,"Luguentz Dort
+OKC | SG","6'2.75""","6'8.5""",5.75
+153,"Thaddeus Young
+PHX | PF","6'5.75""","6'11.5""",5.75
+154,"James Wiseman
+DET | C","6'11.5""","7'5""",5.5
+155,"Jaden Ivey
+DET | SG","6'3.5""","6'9""",5.5
+156,"Jordan McLaughlin
+MIN | PG","5'11""","6'4.5""",5.5
+157,"Toumani Camara
+POR | PF","6'7""","7'0.5""",5.5
+158,"Damian Jones
+CLE | C","6'10.25""","7'3.75""",5.5
+159,"Russell Westbrook
+LAC | PG","6'2.25""","6'7.75""",5.5
+160,"Bogdan Bogdanovic
+ATL | SG","6'5.5""","6'11""",5.5
+161,"Neemias Queta
+BOS | C","6'10.75""","7'4.25""",5.5
+162,"Cody Martin
+CHA | SF","6'4.75""","6'10.25""",5.5
+163,"Buddy Hield
+PHI | SG","6'3.75""","6'9.25""",5.5
+164,"Jaden Hardy
+DAL | SG","6'3.5""","6'9""",5.5
+165,"Nickeil Alexander-Walker
+MIN | SG","6'4.25""","6'9.5""",5.25
+166,"Jaxson Hayes
+LAL | C","6'10.25""","7'3.5""",5.25
+167,"Joel Embiid
+PHI | C","6'11.75""","7'5""",5.25
+168,"Josh Green
+DAL | SG","6'4.5""","6'9.75""",5.25
+169,"Joshua Primo
+LAC | SG","6'4""","6'9.25""",5.25
+170,"Jalen Pickett
+DEN | PG","6'2""","6'7.25""",5.25
+171,"Daniel Gafford
+DAL | C","6'9.25""","7'2.5""",5.25
+172,"Obi Toppin
+IND | PF","6'8.75""","7'2""",5.25
+173,"Precious Achiuwa
+NYK | PF","6'7.5""","7'0.75""",5.25
+174,"Richaun Holmes
+WAS | C","6'8.25""","7'1.5""",5.25
+175,"Aaron Wiggins
+OKC | SG","6'4.5""","6'9.75""",5.25
+176,"Dorian Finney-Smith
+BKN | SF","6'6.5""","6'11.75""",5.25
+177,"Moussa Diabate
+LAC | C","6'9.25""","7'2.5""",5.25
+178,"Taurean Prince
+LAL | SF","6'6.5""","6'11.5""",5
+179,"Jalen Smith
+IND | PF","6'9.25""","7'2.25""",5
+180,"Colin Castleton
+LAL | C","6'11""","7'3.5""",5
+181,"Andrew Wiggins
+GSW | SF","6'7""","7'0""",5
+182,"Devin Vassell
+SAS | SG","6'5""","6'10""",5
+183,"Troy Brown Jr.
+DET | SF","6'5.75""","6'10.75""",5
+184,"Kenneth Lofton Jr.
+UTA | C","6'6""","6'11""",5
+185,"Jaylen Clark
+MIN | SG","6'4""","6'9""",5
+186,"Evan Mobley
+CLE | PF","6'11""","7'4""",5
+187,"Alec Burks
+NYK | SG","6'5""","6'10""",5
+188,"Josh Richardson
+MIA | SF","6'5""","6'10""",5
+189,"Jericho Sims
+NYK | C","6'10""","7'3""",5
+190,"Mouhamed Gueye
+ATL | C","6'10.25""","7'3.25""",5
+191,"Brice Sensabaugh
+UTA | SF","6'6""","6'11""",5
+192,"RJ Barrett
+TOR | SF","6'5""","6'10""",5
+193,"Tyrese Maxey
+PHI | PG","6'2""","6'7""",5
+194,"Chuma Okeke
+ORL | PF","6'7""","7'0""",5
+195,"Keon Ellis
+SAC | SG","6'3.5""","6'8.5""",5
+196,"Brandon Boston Jr.
+LAC | SG","6'5.75""","6'10.75""",5
+197,"Royce O'Neale
+PHX | SF","6'4""","6'9""",5
+198,"Aaron Nesmith
+IND | SF","6'5""","6'10""",5
+199,"Jordan Clarkson
+UTA | SG","6'3.25""","6'8""",4.75
+200,"Julian Phillips
+CHI | SF","6'6.75""","6'11.5""",4.75
+201,"Nicolas Batum
+PHI | SF","6'8.25""","7'1""",4.75
+202,"Zion Williamson
+NOP | PF","6'5.75""","6'10.5""",4.75
+203,"Al Horford
+BOS | C","6'8""","7'0.75""",4.75
+204,"Isaiah Jackson
+IND | C","6'9.5""","7'2.25""",4.75
+205,"Zeke Nnaji
+DEN | PF","6'9.25""","7'2""",4.75
+206,"Danny Green
+| SG","6'5.25""","6'10""",4.75
+207,"Leonard Miller
+MIN | PF","6'9.25""","7'2""",4.75
+208,"Bradley Beal
+PHX | SG","6'3.25""","6'8""",4.75
+209,"Jaden Springer
+BOS | SG","6'3""","6'7.75""",4.75
+210,"Kendall Brown
+IND | SF","6'6.25""","6'11""",4.75
+211,"James Bouknight
+| SG","6'3.5""","6'8.25""",4.75
+212,"Theo Maledon
+| PG","6'4""","6'8.75""",4.75
+213,"Trayce Jackson-Davis
+GSW | C","6'8.25""","7'1""",4.75
+214,"Dyson Daniels
+NOP | SG","6'6""","6'10.5""",4.5
+215,"Gary Trent Jr.
+TOR | SG","6'4.25""","6'8.75""",4.5
+216,"Paul Reed
+PHI | PF","6'9""","7'1.5""",4.5
+217,"Ivica Zubac
+LAC | C","6'11.5""","7'4""",4.5
+218,"Isaiah Joe
+OKC | SG","6'3""","6'7.5""",4.5
+219,"Max Christie
+LAL | SG","6'4.25""","6'8.75""",4.5
+220,"Luka Doncic
+DAL | SF","6'6.5""","6'11""",4.5
+221,"Nic Claxton
+BKN | C","6'10""","7'2.5""",4.5
+222,"Bobby Portis
+MIL | PF","6'9.5""","7'2""",4.5
+223,"Keldon Johnson
+SAS | SF","6'4.75""","6'9.25""",4.5
+224,"Dariq Whitehead
+BKN | SG","6'5.75""","6'10.25""",4.5
+225,"Karl-Anthony Towns
+MIN | C","6'11""","7'3.5""",4.5
+226,"Jae Crowder
+MIL | PF","6'4.75""","6'9.25""",4.5
+227,"De'Aaron Fox
+SAC | PG","6'2""","6'6.5""",4.5
+228,"Bennedict Mathurin
+IND | SG","6'4.5""","6'9""",4.5
+229,"Tyus Jones
+WAS | PG","6'0.5""","6'5""",4.5
+230,"Josh Hart
+NYK | SF","6'3.75""","6'8.25""",4.5
+231,"Tobias Harris
+PHI | PF","6'6.5""","6'11""",4.5
+232,"Jalen Johnson
+ATL | PF","6'7.75""","7'0.25""",4.5
+233,"Trey Murphy III
+NOP | SF","6'7.5""","7'0""",4.5
+234,"Patrick Baldwin Jr.
+WAS | PF","6'9.25""","7'1.75""",4.5
+235,"Trey Lyles
+SAC | PF","6'9""","7'1.5""",4.5
+236,"Chimezie Metu
+| C","6'8""","7'0.5""",4.5
+237,"Jarred Vanderbilt
+LAL | PF","6'8.5""","7'1""",4.5
+238,"Jordan Nwora
+TOR | PF","6'5.75""","6'10.25""",4.5
+239,"Julius Randle
+NYK | PF","6'7.75""","7'0""",4.25
+240,"Jonathan Kuminga
+GSW | SF","6'7""","6'11.25""",4.25
+241,"Isaiah Wong
+IND | SG","6'2.5""","6'6.75""",4.25
+242,"Harrison Barnes
+SAC | PF","6'7""","6'11.25""",4.25
+243,"Kessler Edwards
+SAC | SF","6'7""","6'11.25""",4.25
+244,"Terquavion Smith
+PHI | SG","6'2.5""","6'6.75""",4.25
+245,"Andre Jackson Jr.
+MIL | SF","6'5.5""","6'9.75""",4.25
+246,"Miles Bridges
+CHA | SF","6'5.25""","6'9.5""",4.25
+247,"Grayson Allen
+PHX | SG","6'3""","6'7.25""",4.25
+248,"Johnny Davis
+WAS | SG","6'4.25""","6'8.5""",4.25
+249,"Sandro Mamukelashvili
+SAS | PF","6'9""","7'1.25""",4.25
+250,"Taylor Hendricks
+UTA | PF","6'8.25""","7'0.5""",4.25
+251,"Caris LeVert
+CLE | SF","6'5.75""","6'10""",4.25
+252,"Sidy Cissoko
+SAS | SF","6'5.5""","6'9.75""",4.25
+253,"Davion Mitchell
+SAC | PG","6'0""","6'4.25""",4.25
+254,"Kira Lewis Jr.
+UTA | PG","6'0.75""","6'5""",4.25
+255,"Gary Harris
+ORL | SG","6'2.5""","6'6.75""",4.25
+256,"Josh Minott
+MIN | PF","6'7.5""","6'11.75""",4.25
+257,"Jaylin Williams
+OKC | C","6'8.75""","7'1""",4.25
+258,"Aaron Gordon
+DEN | PF","6'7.5""","6'11.75""",4.25
+259,"Derrick White
+BOS | SG","6'3.25""","6'7.5""",4.25
+260,"Dante Exum
+DAL | SG","6'5""","6'9""",4
+261,"Pat Connaughton
+MIL | SG","6'4""","6'8""",4
+262,"Patrick Williams
+CHI | SF","6'7""","6'11""",4
+263,"Harry Giles III
+LAL | C","6'11""","7'3""",4
+264,"Giannis Antetokounmpo
+MIL | PF","6'11""","7'3""",4
+265,"Khris Middleton
+MIL | SF","6'6.75""","6'10.75""",4
+266,"Saddiq Bey
+ATL | SF","6'7""","6'11""",4
+267,"Walker Kessler
+UTA | C","7'0.25""","7'4.25""",4
+268,"Cedi Osman
+SAS | SF","6'7""","6'11""",4
+269,"Trent Forrest
+ATL | PG","6'3.5""","6'7.5""",4
+270,"Kris Murray
+POR | PF","6'7.75""","6'11.75""",4
+271,"Markquis Nowell
+| PG","5'8""","6'0""",4
+272,"Wesley Matthews
+ATL | SG","6'4.5""","6'8.5""",4
+273,"Darius Garland
+CLE | PG","6'1""","6'5""",4
+274,"Dereon Seabron
+NOP | SF","6'5""","6'8.75""",4
+275,"Alex Len
+SAC | C","6'11.5""","7'3.5""",4
+276,"Duop Reath
+POR | C","6'9""","7'1""",4
+277,"Noah Clowney
+BKN | PF","6'10""","7'2""",4
+278,"CJ McCollum
+NOP | SG","6'2.25""","6'6.25""",4
+279,"Jabari Walker
+POR | PF","6'6.75""","6'10.75""",4
+280,"Jae'Sean Tate
+HOU | PF","6'4""","6'8""",4
+281,"Jalen McDaniels
+TOR | PF","6'8.25""","7'0.25""",4
+282,"Jevon Carter
+CHI | PG","6'0.25""","6'4.25""",4
+283,"Grant Williams
+CHA | PF","6'5.75""","6'9.75""",4
+284,"Nick Richards
+CHA | C","6'10.5""","7'2.25""",3.75
+285,"Keon Johnson
+BKN | SG","6'3.5""","6'7.25""",3.75
+286,"Quentin Grimes
+DET | SG","6'4""","6'7.75""",3.75
+287,"LeBron James
+LAL | PF","6'8.5""","7'0.25""",3.75
+288,"Devin Booker
+PHX | SG","6'4.5""","6'8.25""",3.75
+289,"Jrue Holiday
+BOS | PG","6'3.25""","6'7""",3.75
+290,"Dylan Windler
+ATL | SF","6'6.25""","6'10""",3.75
+291,"Zach LaVine
+CHI | SG","6'4.5""","6'8.25""",3.75
+292,"Lonzo Ball
+CHI | PG","6'5.25""","6'9""",3.75
+293,"Spencer Dinwiddie
+LAL | PG","6'4.5""","6'8.25""",3.75
+294,"Ben Simmons
+BKN | SF","6'9""","7'0.5""",3.5
+295,"Goga Bitadze
+ORL | C","6'10.5""","7'2""",3.5
+296,"Kevin Love
+MIA | PF","6'7.75""","6'11.25""",3.5
+297,"Nikola Jokic
+DEN | C","6'11.5""","7'3""",3.5
+298,"Kristaps Porzingis
+BOS | C","7'2.5""","7'6""",3.5
+299,"Jaime Jaquez Jr.
+MIA | SF","6'6""","6'9.5""",3.5
+300,"Anthony Gill
+WAS | PF","6'7.5""","6'11""",3.5
+301,"Cam Thomas
+BKN | SG","6'3""","6'6.5""",3.5
+302,"Isaac Okoro
+CLE | SF","6'5""","6'8.5""",3.5
+303,"Jalen Green
+HOU | SG","6'4""","6'7.5""",3.5
+304,"Jayson Tatum
+BOS | SF","6'7.5""","6'11""",3.5
+305,"Paolo Banchero
+ORL | PF","6'9""","7'0.5""",3.5
+306,"Cory Joseph
+| PG","6'2""","6'5.5""",3.5
+307,"Kobe Bufkin
+ATL | SG","6'4.25""","6'7.75""",3.5
+308,"Malik Beasley
+MIL | SG","6'3.5""","6'7""",3.5
+309,"Aleksej Pokusevski
+CHA | PF","6'11.5""","7'3""",3.5
+310,"Colby Jones
+SAC | SG","6'4.5""","6'8""",3.5
+311,"Moses Brown
+POR | C","7'1.25""","7'4.75""",3.5
+312,"Ja Morant
+MEM | PG","6'2.5""","6'6""",3.5
+313,"Luka Garza
+MIN | C","6'10""","7'1.5""",3.5
+314,"Kentavious Caldwell-Pope
+DEN | SG","6'4.5""","6'8""",3.5
+315,"Furkan Korkmaz
+| SG","6'6.5""","6'10""",3.5
+316,"Paul George
+LAC | SF","6'7.75""","6'11.25""",3.5
+317,"Caleb Houstan
+ORL | SG","6'7.5""","6'11""",3.5
+318,"Bryce McGowens
+CHA | SG","6'5.25""","6'8.75""",3.5
+319,"DeMar DeRozan
+CHI | SF","6'5.5""","6'9""",3.5
+320,"Julian Strawther
+DEN | SF","6'6""","6'9.25""",3.25
+321,"Klay Thompson
+GSW | SG","6'5.75""","6'9""",3.25
+322,"Lamar Stevens
+MEM | SF","6'5.75""","6'9""",3.25
+323,"Delon Wright
+MIA | PG","6'4.25""","6'7.5""",3.25
+324,"GG Jackson
+MEM | PF","6'8.25""","6'11.5""",3.25
+325,"Vlatko Cancar
+DEN | PF","6'7.75""","6'11""",3.25
+326,"Jeremy Sochan
+SAS | PF","6'8.5""","6'11.75""",3.25
+327,"R.J. Hampton
+| SG","6'3.75""","6'7""",3.25
+328,"John Konchar
+MEM | SF","6'4.75""","6'8""",3.25
+329,"Georges Niang
+CLE | PF","6'6.75""","6'10""",3.25
+330,"Jordan Poole
+WAS | SG","6'3.5""","6'6.75""",3.25
+331,"Killian Hayes
+| PG","6'4.75""","6'8""",3.25
+332,"Brandon Miller
+CHA | SF","6'9""","6'11.5""",3
+333,"Jalen Brunson
+NYK | PG","6'1""","6'4""",3
+334,"Jamal Murray
+DEN | PG","6'3.5""","6'6.5""",3
+335,"Danilo Gallinari
+MIL | PF","6'10""","7'1""",3
+336,"John Collins
+UTA | PF","6'8.25""","6'11.25""",3
+337,"Dwight Powell
+DAL | C","6'9.5""","7'0.5""",3
+338,"Cameron Johnson
+BKN | PF","6'7""","6'10""",3
+339,"Marcus Morris Sr.
+CLE | PF","6'7""","6'10""",3
+340,"Oshae Brissett
+BOS | PF","6'7""","6'10""",3
+341,"Payton Pritchard
+BOS | PG","6'1""","6'4""",3
+342,"Chris Paul
+GSW | PG","6'1""","6'4""",3
+343,"Seth Curry
+CHA | SG","6'1""","6'4""",3
+344,"Terance Mann
+LAC | SF","6'4.75""","6'7.75""",3
+345,"Tyrese Haliburton
+IND | PG","6'4.75""","6'7.75""",3
+346,"Craig Porter Jr.
+CLE | PG","6'1""","6'4""",3
+347,"Day'Ron Sharpe
+BKN | C","6'9""","7'0""",3
+348,"Doug McDermott
+IND | SF","6'6.25""","6'9.25""",3
+349,"Keegan Murray
+SAC | PF","6'8""","6'11""",3
+350,"Markieff Morris
+DAL | C","6'7.75""","6'10.75""",3
+351,"Reggie Bullock Jr.
+HOU | SF","6'5.75""","6'8.75""",3
+352,"Tre Jones
+SAS | PG","6'1""","6'4""",3
+353,"Charles Bediako
+| C","7'0""","7'3""",3
+354,"Isaiah Livers
+WAS | SF","6'6""","6'9.25""",3
+355,"Jock Landale
+HOU | C","6'11""","7'2""",3
+356,"Julian Champagnie
+SAS | SF","6'7""","6'10""",3
+357,"Vasilije Micic
+CHA | PG","6'4""","6'7""",3
+358,"Nick Smith Jr.
+CHA | SG","6'5""","6'8""",3
+359,"Jake LaRavia
+MEM | SF","6'6.75""","6'9.5""",2.75
+360,"Malik Monk
+SAC | SG","6'2.25""","6'5""",2.75
+361,"Mike Muscala
+OKC | C","6'10.25""","7'1""",2.75
+362,"Patty Mills
+MIA | PG","5'11.25""","6'2""",2.75
+363,"Monte Morris
+MIN | PG","6'1.25""","6'4""",2.75
+364,"Zach Collins
+SAS | C","6'10.25""","7'1""",2.75
+365,"Andrew Nembhard
+IND | PG","6'3""","6'5.75""",2.75
+366,"Isaiah Hartenstein
+NYK | C","6'11.5""","7'2.25""",2.75
+367,"Landry Shamet
+WAS | SG","6'4""","6'6.75""",2.75
+368,"Nikola Jovic
+MIA | PF","6'9.5""","7'0.25""",2.75
+369,"Cam Whitmore
+HOU | SF","6'5.75""","6'8.5""",2.75
+370,"Gradey Dick
+TOR | SG","6'6.25""","6'8.75""",2.5
+371,"Jordan Hawkins
+NOP | SG","6'4.25""","6'6.75""",2.5
+372,"Jonathan Isaac
+ORL | PF","6'10.5""","7'1""",2.5
+373,"Ben Sheppard
+IND | SG","6'5.25""","6'7.75""",2.5
+374,"Alperen Sengun
+HOU | C","6'10""","7'0.5""",2.5
+375,"Donte DiVincenzo
+NYK | SG","6'3.5""","6'6""",2.5
+376,"Jacob Gilyard
+BKN | PG","5'8""","5'10.5""",2.5
+377,"Joe Ingles
+ORL | SF","6'7.75""","6'10.25""",2.5
+378,"Cole Anthony
+ORL | PG","6'2""","6'4.5""",2.5
+379,"Jusuf Nurkic
+PHX | C","6'11.5""","7'2""",2.5
+380,"Franz Wagner
+ORL | SF","6'9""","6'11.5""",2.5
+381,"Trae Young
+ATL | PG","6'0.5""","6'3""",2.5
+382,"Tim Hardaway Jr.
+DAL | SG","6'4.5""","6'7""",2.5
+383,"Jalen Wilson
+BKN | SF","6'5.5""","6'8""",2.5
+384,"Sam Hauser
+BOS | PF","6'6.75""","6'9.25""",2.5
+385,"Jakob Poeltl
+TOR | C","7'0.25""","7'2.75""",2.5
+386,"Ousmane Dieng
+OKC | SF","6'9.5""","7'0""",2.5
+387,"Max Strus
+CLE | SG","6'5""","6'7.5""",2.5
+388,"Omer Yurtseven
+UTA | C","6'10.5""","7'1""",2.5
+389,"Jabari Smith Jr.
+HOU | PF","6'10.5""","7'1""",2.5
+390,"Yuta Watanabe
+MEM | SF","6'7.75""","6'10""",2.25
+391,"Kyrie Irving
+DAL | PG","6'1.75""","6'4""",2.25
+392,"Kyle Lowry
+PHI | PG","5'11.75""","6'2""",2.25
+393,"Michael Porter Jr.
+DEN | PF","6'9.75""","7'0""",2.25
+394,"Jalen Suggs
+ORL | PG","6'3.5""","6'5.5""",2
+395,"Jeremiah Robinson-Earl
+NOP | PF","6'7.75""","6'9.75""",2
+396,"Alex Caruso
+CHI | PG","6'4""","6'6""",2
+397,"Malachi Flynn
+DET | PG","6'1""","6'3""",2
+398,"Jose Alvarado
+NOP | PG","5'11""","6'1""",2
+399,"Drew Eubanks
+PHX | C","6'9""","6'11""",2
+400,"Keyonte George
+UTA | SG","6'4""","6'6""",2
+401,"Jaden McDaniels
+MIN | SF","6'9""","6'11""",2
+402,"Cole Swider
+MIA | PF","6'9""","6'11""",2
+403,"LaMelo Ball
+CHA | PG","6'6""","6'8""",2
+404,"Ziaire Williams
+MEM | SF","6'8.25""","6'10.25""",2
+405,"Danuel House Jr.
+| SF","6'6""","6'8""",2
+406,"Chris Duarte
+SAC | SG","6'5""","6'7""",2
+407,"Fred VanVleet
+HOU | PG","6'0""","6'2""",2
+408,"Moritz Wagner
+ORL | C","6'10""","7'0""",2
+409,"Brandin Podziemski
+GSW | SG","6'3.75""","6'5.5""",1.75
+410,"Anthony Black
+ORL | PG","6'5.75""","6'7.5""",1.75
+411,"Austin Reaves
+LAL | SG","6'4.5""","6'6.25""",1.75
+412,"Dennis Smith Jr.
+BKN | PG","6'1.25""","6'3""",1.75
+413,"Coby White
+CHI | PG","6'3.5""","6'5""",1.5
+414,"Marvin Bagley III
+WAS | PF","6'10.5""","7'0""",1.5
+415,"Maxi Kleber
+DAL | C","6'9.25""","6'10.75""",1.5
+416,"Sam Merrill
+CLE | SG","6'3.5""","6'5""",1.5
+417,"Jimmy Butler
+MIA | SF","6'6""","6'7.5""",1.5
+418,"Stephen Curry
+GSW | PG","6'2""","6'3.5""",1.5
+419,"T.J. McConnell
+IND | PG","6'0.5""","6'2""",1.5
+420,"Joe Harris
+| SG","6'4.75""","6'6""",1.25
+421,"Kenrich Williams
+OKC | SF","6'6""","6'7.25""",1.25
+422,"KJ Martin
+PHI | SF","6'6""","6'7.25""",1.25
+423,"Dalano Banton
+POR | SG","6'9""","6'10.25""",1.25
+424,"Kevin Huerter
+SAC | SG","6'6.25""","6'7.5""",1.25
+425,"Filip Petrusev
+| PF","6'11""","7'0""",1
+426,"Jett Howard
+ORL | SF","6'8""","6'9""",1
+427,"Domantas Sabonis
+SAC | C","6'10""","6'11""",1
+428,"Gordon Hayward
+OKC | SF","6'6.75""","6'7.75""",1
+429,"Corey Kispert
+WAS | SF","6'6""","6'7""",1
+430,"Evan Fournier
+DET | SG","6'6.5""","6'7.5""",1
+431,"Brandon Clarke
+MEM | PF","6'7.25""","6'8.25""",1
+432,"Dillon Brooks
+HOU | SF","6'5""","6'6""",1
+433,"Dean Wade
+CLE | PF","6'9""","6'10""",1
+434,"Christian Braun
+DEN | SF","6'5.5""","6'6.5""",1
+435,"Emoni Bates
+CLE | SF","6'8.25""","6'9""",0.75
+436,"Tre Mann
+CHA | PG","6'3.25""","6'4""",0.75
+437,"Luke Kennard
+MEM | SG","6'4.5""","6'5.25""",0.75
+438,"Amir Coffey
+LAC | SF","6'6.75""","6'7.25""",0.5
+439,"Dario Saric
+GSW | PF","6'9.5""","6'10""",0.5
+440,"Santi Aldama
+MEM | PF","6'10.75""","6'11""",0.25
+441,"Luke Kornet
+BOS | C","7'1""","7'1""",0
+442,"Davis Bertans
+CHA | PF","6'10""","6'10""",0
+443,"Lauri Markkanen
+UTA | PF","6'11""","6'11""",0
+444,"Deni Avdija
+WAS | SF","6'8.75""","6'8.5""",-0.25
+445,"Mason Plumlee
+LAC | C","6'11.25""","6'11""",-0.25
+446,"Ty Jerome
+CLE | PG","6'4.25""","6'4""",-0.25
+447,"Josh Giddey
+OKC | SF","6'8""","6'7.5""",-0.5
+448,"Desmond Bane
+MEM | SG","6'5""","6'4.25""",-0.75
+449,"Kelly Olynyk
+TOR | C","6'10.75""","6'9.75""",-1
+450,"Kyle Kuzma
+WAS | PF","6'8""","6'7""",-1
+451,"Tyler Herro
+MIA | SG","6'4.5""","6'3.25""",-1.25
+452,"Svi Mykhailiuk
+BOS | SG","6'6.5""","6'5""",-1.5
